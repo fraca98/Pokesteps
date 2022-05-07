@@ -30,7 +30,9 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.2 #to manage the state of the app
-  flutter_native_splash: ^2.1.6 #to create a splash screen (when i open the ap during loading)
+  flutter_native_splash: ^2.1.6 #to create a splash screen (when i open the app during the loading)
+  flutter_app_name: ^0.1.0 #to change the app icon name on the screen
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,8 +43,14 @@ flutter_native_splash: #for the creation of the splash screen
   image: assets/images/splashscreen.png #image on the splash screen
   android: true #show on android
   ios: true #show on ios
-  # to create che splash screen then run:
+  # to create the splash screen then run in the terminal:
   #flutter pub run flutter_native_splash:create
+
+flutter_app_name: #to change the app icon name on the screen
+  name: "Pokésteps" #set the app name to "Pokésteps"
+  #to change the name of the app then run in the terminal:
+  #flutter pub get
+  #flutter pub run flutter_app_name
 
 
 dev_dependencies:
