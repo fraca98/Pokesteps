@@ -29,10 +29,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   provider: ^6.0.2 #to manage the state of the app
   flutter_native_splash: ^2.1.6 #to create a splash screen (when i open the app during the loading)
   flutter_app_name: ^0.1.0 #to change the app icon name on the screen
-
+  flutter_launcher_icons: #to create the icon of the app
+    git:
+      url: https://github.com/Davenchy/flutter_launcher_icons.git #imported from github due to issue with https://pub.dev/ (see github section issue of the package)
+      ref: fixMinSdkParseFlutter2.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,7 +47,7 @@ flutter_native_splash: #for the creation of the splash screen
   image: assets/images/splashscreen.png #image on the splash screen
   android: true #show on android
   ios: true #show on ios
-  # to create the splash screen then run in the terminal:
+  #to create the splash screen then run in the terminal:
   #flutter pub run flutter_native_splash:create
 
 flutter_app_name: #to change the app icon name on the screen
@@ -52,6 +56,13 @@ flutter_app_name: #to change the app icon name on the screen
   #flutter pub get
   #flutter pub run flutter_app_name
 
+flutter_icons: #to create the icon of the app
+  image_path: "assets/images/pokemonegg.png" #set image of icon app
+  android: true #create on android
+  ios: true #create on ios
+  #to create it run in the terminal:
+  #flutter pub get
+  #flutter pub run flutter_launcher_icons:main
 
 dev_dependencies:
   flutter_test:

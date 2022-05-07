@@ -25,8 +25,10 @@ class MyApp extends StatelessWidget {
       //ChangeNotifierProvider for BottomNavigationBar index
       create: (context) => BottomNavigationBarIndex(),
       child: MaterialApp(
-        title: 'Fitbit_app',
-        theme: ThemeData(),
+        title: 'pokesteps',
+        theme: ThemeData(
+          primaryColor: Colors.white, //Set primary color to white (linked also to app icon when i press on the square of the bottom bar) 
+        ),
         initialRoute: RootPage.route,
         routes: {
           RootPage.route: (context) => RootPage(),
