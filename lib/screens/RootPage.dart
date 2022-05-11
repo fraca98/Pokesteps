@@ -9,7 +9,7 @@ import 'package:pokesteps/models/BottomNavigationBarIndex.dart'; //Provider mode
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
 
-  static const route = '/';
+  static const route = '/rootpage/';
   static const routename = 'RoutePage';
 
   @override
@@ -17,6 +17,8 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
+  PageController _pageController = PageController(); //control of PageView
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,16 +29,20 @@ class _RootPageState extends State<RootPage> {
   }
 
   Widget _getBody() {
-    //Define the body of the Scaffold based on the index of BottomNavigationBar model provider
-    return IndexedStack(
-      //Select only one child from children based on index
-      index: Provider.of<BottomNavigationBarIndex>(context)
-          .pageNow, //Not need to rebuild the widget, so not using consumer
+    //Define the body of the Scaffold based on BottomNavigationBar model provider
+    return PageView(
+      controller: _pageController,
       children: [
-        PokemonPage(), //0 pageSelectionIndex BottomNavigationBar model provider
-        PokedexPage(), //1 pageSelectionIndex BottomNavigationBar model provider
-        TrainerPage(), //2 pageSelectionIndex BottomNavigationBar model provider
+        PokemonPage(), //0
+        PokedexPage(), //1
+        TrainerPage(), //2
       ],
+      onPageChanged: (page) {
+        Provider.of<BottomNavigationBarIndex>(context,
+                listen:
+                    false) //Not need to rebuild the widget, so not using consumer, just set action
+            .updatePageSelection(page); //update the index
+      },
     );
   }
 
@@ -59,7 +65,8 @@ class _RootPageState extends State<RootPage> {
       ],
       currentIndex: Provider.of<BottomNavigationBarIndex>(context).pageNow,
       onTap: (int index) {
-        //onTap: i change the body when i select an icon on the BottomNavigationBar
+        //onTap: i change the body when i select an icon on the BottomNavigationBar, i jump to another page
+        _pageController.jumpToPage(index);
         Provider.of<BottomNavigationBarIndex>(context,
                 listen:
                     false) //Not need to rebuild the widget, so not using consumer, just set action
