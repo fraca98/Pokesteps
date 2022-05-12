@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart'; //To use SystemChrome:set notification bar color, icons notification bar color...
 import 'screens/RootPage.dart';
 import 'package:pokesteps/models/BottomNavigationBarIndex.dart'; //Provider model for BottomNavigationBar
+import 'package:pokesteps/models/TakeEgg.dart'; //Provider model for TakeEgg (if i have a new egg management)
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -21,13 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override //This widget is the root of the application.
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<BottomNavigationBarIndex>(
-      //ChangeNotifierProvider for BottomNavigationBar index
-      create: (context) => BottomNavigationBarIndex(),
+    return MultiProvider(
+      providers: [ //The provider
+        ChangeNotifierProvider<BottomNavigationBarIndex>(
+            create: (context) => BottomNavigationBarIndex()),
+        ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg()),
+      ],
       child: MaterialApp(
         title: 'pokesteps',
         theme: ThemeData(
-          primaryColor: Colors.white, //Set primary color to white (linked also to app icon when i press on the square of the bottom bar) 
+          primaryColor: Colors
+              .white, //Set primary color to white (linked also to app icon when i press on the square of the bottom bar)
         ),
         initialRoute: RootPage.route,
         routes: {
