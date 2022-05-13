@@ -37,6 +37,7 @@ dependencies:
     git:
       url: https://github.com/Davenchy/flutter_launcher_icons.git #imported from github due to issue with https://pub.dev/ (see github section issue of the package)
       ref: fixMinSdkParseFlutter2.8
+  http: ^0.13.4 #for http requests
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -96,6 +97,7 @@ flutter:
 
   assets:
     - assets/images/pokemonegg.png
+    - assets/images/pokeloader.gif
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

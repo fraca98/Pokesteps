@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
+import 'package:pokesteps/models/GeneratePokemon.dart';
+import 'package:pokesteps/widget/widgetafteregg.dart';
 
 class PokemonPage extends StatefulWidget {
   //StetafulWidget
@@ -52,7 +54,7 @@ class _PokemonPageState extends State<PokemonPage> {
               child: Center(
                 child: Provider.of<TakeEgg>(context, listen: false)
                         .WalkEgg //want only to get the value to build, not rebuid all
-                    ? _barsteps(context)
+                    ? widgetafteregg()
                     : _newEgg(
                         context), //if _WalkEgg true display bar, else the button _newEgg
               )),
@@ -66,6 +68,9 @@ class _PokemonPageState extends State<PokemonPage> {
     return ElevatedButton(
       onPressed: () async {
         Provider.of<TakeEgg>(context, listen: false).updateWalkEgg();
+        Provider.of<GeneratePokemon>(context, listen: false).generateid();
+        await Provider.of<GeneratePokemon>(context, listen: false)
+            .callPokeApi();
       },
       child: Text(
         'Take this Pokémon egg',
@@ -78,11 +83,5 @@ class _PokemonPageState extends State<PokemonPage> {
         elevation: 10,
       ),
     );
-  }
-
-  Widget _barsteps(BuildContext context) {
-    //to put with FITBIT API CALLS
-    return Text(
-        'Here i have to put the bar, buttons for fetch of steps and to go to FoundPokemonPage');
   }
 }

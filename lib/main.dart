@@ -4,6 +4,7 @@ import 'package:flutter/services.dart'; //To use SystemChrome:set notification b
 import 'screens/RootPage.dart';
 import 'package:pokesteps/models/BottomNavigationBarIndex.dart'; //Provider model for BottomNavigationBar
 import 'package:pokesteps/models/TakeEgg.dart'; //Provider model for TakeEgg (if i have a new egg management)
+import 'package:pokesteps/models/GeneratePokemon.dart'; //Provider for the PokeApi call and generation of new pokémon
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -24,9 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ //The provider
-        ChangeNotifierProvider<BottomNavigationBarIndex>(
-            create: (context) => BottomNavigationBarIndex()),
+        ChangeNotifierProvider<BottomNavigationBarIndex>(create: (context) => BottomNavigationBarIndex()),
         ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg()),
+        ChangeNotifierProvider<GeneratePokemon>(create: (context) => GeneratePokemon()),
       ],
       child: MaterialApp(
         title: 'pokesteps',

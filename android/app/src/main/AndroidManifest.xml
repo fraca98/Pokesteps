@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pokesteps">
+    <uses-permission android:name="android.permission.INTERNET" /> <!--allow internet connection on android-->
    <application
         android:label="Pokésteps"
         android:name="${applicationName}"
