@@ -19,7 +19,7 @@ class Pokeicons {
   Pokeicons._();
 
   static const _kFontFam = 'Pokeicons';
-  static const String? _kFontPkg = null;
+  static const String _kFontPkg = null;
 
   static const IconData pikachu = IconData(0xe800,
       fontFamily: _kFontFam, fontPackage: _kFontPkg); //pikachu icon

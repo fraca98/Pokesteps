@@ -7,7 +7,7 @@ import 'package:pokesteps/screens/TrainerPage.dart';
 import 'package:pokesteps/models/BottomNavigationBarIndex.dart'; //Provider model for BottomNavigationBar
 
 class RootPage extends StatefulWidget {
-  const RootPage({Key? key}) : super(key: key);
+  const RootPage({Key key}) : super(key: key);
 
   static const route = '/rootpage/';
   static const routename = 'RoutePage';
