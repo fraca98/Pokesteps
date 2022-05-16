@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokesteps/screen/WelcomePage.dart';
+import 'package:pokesteps/screen/LoginPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PokéSteps',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      initialRoute: WelcomePage.route,
+      routes: {
+        WelcomePage.route: (context) => WelcomePage(),
+        LoginPage.route: (context) => LoginPage(),
+      },
     );
   }
 }
