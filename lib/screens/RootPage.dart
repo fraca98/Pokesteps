@@ -17,7 +17,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  PageController _pageController = PageController(); //control of PageView
+  final PageController _pageController = PageController(); //control of PageView
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _RootPageState extends State<RootPage> {
     //Define the body of the Scaffold based on BottomNavigationBar model provider
     return PageView(
       controller: _pageController,
-      children: [
+      children: const [
         PokemonPage(), //0
         PokedexPage(), //1
         TrainerPage(), //2
@@ -51,11 +51,11 @@ class _RootPageState extends State<RootPage> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed, //Fixed BottomNavigationBar
       backgroundColor: Colors.white,
-      selectedItemColor: Color.fromARGB(255, 255, 0, 0),
+      selectedItemColor: const Color.fromARGB(255, 255, 0, 0),
       unselectedItemColor: Colors.black,
 
       iconSize: 50,
-      items: [
+      items: const [
         BottomNavigationBarItem(
             icon: Icon(Pokeicons.pikachu), label: 'Pokémon'),
         BottomNavigationBarItem(

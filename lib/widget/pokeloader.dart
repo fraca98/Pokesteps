@@ -7,8 +7,7 @@ class Pokeloader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
               'assets/images/pokeloader.gif', //pokeloader gif (pokeball rotating-->while fetching)
-              height: 100,
-              width: 100,
+              fit: BoxFit.contain, //to avoid distorsion
             );
   }
 }

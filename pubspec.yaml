@@ -38,6 +38,10 @@ dependencies:
       url: https://github.com/Davenchy/flutter_launcher_icons.git #imported from github due to issue with https://pub.dev/ (see github section issue of the package)
       ref: fixMinSdkParseFlutter2.8
   http: ^0.13.4 #for http requests
+  intl: ^0.17.0 #to manage datetime, uppercase in text ...
+  fitbitter: ^1.1.1 #to import fibit data
+  percent_indicator: ^4.0.1 #to create the progress indicator bar -->the package has be manually corrected in a section to guarantee not null
+  material_design_icons_flutter: ^5.0.6595 #to have more icons
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

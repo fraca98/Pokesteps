@@ -18,6 +18,7 @@ class GeneratePokemon extends ChangeNotifier{
     //print(rnd_id);
     //responsePokeApi == null ? print('Null') : print('I have all from fetchEgg');
     notifyListeners();
+    return null;
   }
 
   void clearPokeApi(){

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
+import 'package:pokesteps/models/StepsCall.dart';
 import 'package:pokesteps/widget/widgetafteregg.dart';
 
 class PokemonPage extends StatefulWidget {
@@ -32,13 +33,13 @@ class _PokemonPageState extends State<PokemonPage> {
                     .WalkEgg //set listen: false cause i want to get this value without rebuilding all after
                 ? 'Walk to hatch this Pokémon egg' //if _WalkEgg is true (i have an egg: i want to hatch the egg)
                 : 'You have found a Pokémon egg', //if _WalkEgg is false (i have NOT an egg: i want to take the egg)
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           child: Image.asset(
             'assets/images/pokemonegg.png',
             fit: BoxFit
@@ -49,12 +50,12 @@ class _PokemonPageState extends State<PokemonPage> {
         ),
         Consumer<TakeEgg>(
           //rebuild only this widget with Consumer
-          builder: (context, value, child) => Container(
+          builder: (context, value, child) => SizedBox(
               height: 200,
               child: Center(
                 child: Provider.of<TakeEgg>(context, listen: false)
                         .WalkEgg //want only to get the value to build, not rebuid all
-                    ? widgetafteregg()
+                    ? const widgetafteregg()
                     : _newEgg(
                         context), //if _WalkEgg true display bar, else the button _newEgg
               )),
@@ -71,8 +72,9 @@ class _PokemonPageState extends State<PokemonPage> {
         Provider.of<GeneratePokemon>(context, listen: false).generateid();
         await Provider.of<GeneratePokemon>(context, listen: false)
             .callPokeApi();
+        Provider.of<StepsCall>(context, listen: false).startdate = DateTime.now(); //when i take the egg set startdate to fetch steps for the first time of this egg
       },
-      child: Text(
+      child: const Text(
         'Take this Pokémon egg',
         style: TextStyle(fontSize: 20),
       ),
