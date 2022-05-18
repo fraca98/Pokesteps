@@ -10,32 +10,58 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
+          padding: EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               stops: [
-                0.1,
                 0.4,
+                0.5,
                 0.6,
-                0.9,
+                0.8,
               ],
               colors: [
+                Color.fromARGB(251, 250, 248, 248),
                 Colors.yellow,
                 Colors.red,
-                Colors.indigo,
-                Colors.teal,
+                Colors.orange,
               ],
             ),
           ),
           child: Column(
             children: [
               Container(
-                child: Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png',
+                child: Image.asset(
+                  'assets/images/pokesteps.jpg',
                   scale: 0.5,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.25,
+                ),
+              ),
+              SizedBox(
+                height: 95.0,
+              ),
+              SizedBox(
+                height: 25.0,
+              ),
+              Container(
+                height: 80,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 25, left: 24, right: 24),
+                child: ElevatedButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(LoginPage.route),
+                  style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder(), primary: Colors.black),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(250, 250, 250, 1),
+                    ),
+                  ),
                 ),
               ),
             ],
