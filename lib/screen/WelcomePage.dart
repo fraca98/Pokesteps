@@ -64,6 +64,23 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 66.0,
+              ),
+              SizedBox(
+                width: 250.0,
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                  ),
+                  child: AnimatedTextKit(animatedTexts: [
+                    TyperAnimatedText(
+                      'Click to Login to continue',
+                      speed: Duration(milliseconds: 100),
+                    ),
+                  ]),
+                ),
+              ),
             ],
           ),
         ),
