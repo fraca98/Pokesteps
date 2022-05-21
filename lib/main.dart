@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokesteps/screen/WelcomePage.dart';
+import 'package:pokesteps/screen/SignUpPage.dart';
 import 'package:pokesteps/screen/LoginPage.dart';
 
 void main() {
@@ -12,10 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: WelcomePage.route,
+      initialRoute: LoginPage.route,
       routes: {
-        WelcomePage.route: (context) => WelcomePage(),
         LoginPage.route: (context) => LoginPage(),
+        SignUpPage.route: (context) => SignUpPage(),
       },
     );
   }
