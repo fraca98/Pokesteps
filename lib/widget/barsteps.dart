@@ -21,17 +21,17 @@ class _BarstepsState extends State<Barsteps> {
     return Column(
       //if i have the response of the PokeApi i want to show the progress bar and the button to fetch steps
       children: [
-        const SizedBox(
+        SizedBox(
           height: 20,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
               horizontal: 20), //horizontal distance from margin
           child: Consumer<StepsCall>(
             builder: (context, value, child) => LinearPercentIndicator(
               lineHeight: 30, //height of the bar
-              barRadius: const Radius.circular(20), //radius of the bar
-              progressColor: const Color.fromARGB(255, 156, 199, 123),
+              barRadius: Radius.circular(20), //radius of the bar
+              progressColor: Color.fromARGB(255, 156, 199, 123),
               percent: min(
                   (Provider.of<StepsCall>(context, listen: false).getSumSteps /
                           Provider.of<GeneratePokemon>(context, listen: false)
@@ -41,31 +41,32 @@ class _BarstepsState extends State<Barsteps> {
             ),
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: 20,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(MdiIcons.shoePrint),
-            const SizedBox(
+            Icon(MdiIcons.shoePrint),
+            SizedBox(
               width: 10,
             ),
             Consumer<StepsCall>(
               builder: (context, value, child) => Text(
                 'Steps: ${Provider.of<StepsCall>(context, listen: false).getSumSteps}/${Provider.of<GeneratePokemon>(context, listen: false).getStepstoHatch}', //formula to calculate the number of steps to hatch the egg
-                style: const TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20),
               ),
             ),
           ],
         ),
-        const SizedBox(
+        SizedBox(
           height: 30,
         ),
-        SizedBox(
+        Container(
           height: 70,
           child: Center(
-            child: Consumer<StepsCall>(
+            child: 
+            Consumer<StepsCall>(
               builder: (context, value, child) => Provider.of<StepsCall>(
                               context,
                               listen: false)
@@ -75,18 +76,27 @@ class _BarstepsState extends State<Barsteps> {
                       onPressed: () async {
                         Provider.of<StepsCall>(context, listen: false)
                             .updateFetchButtonLoading(); //set to true when loading
-                        await Provider.of<StepsCall>(context, listen: false)
-                            .authentication(); //may i perform authentication
-                        await Provider.of<StepsCall>(context, listen: false)
-                            .fetchsteps(); //i fetch the steps
-                        if (Provider.of<StepsCall>(context, listen: false) //if i reached the number of steps to hatch the egg
-                                .getSumSteps >=
-                            Provider.of<GeneratePokemon>(context, listen: false)
-                                .getStepstoHatch) {
-                          Navigator.pushNamed(
-                              context,
-                              FoundPokemonPage
-                                  .route); //go to the FoundPokemonPage
+                        
+                        if (Provider.of<StepsCall>(context, listen: false).firstabsolutefetch==true) { //first absolute fetch for that egg
+                          await Provider.of<StepsCall>(context, listen: false).authentication();
+
+                          Provider.of<StepsCall>(context, listen: false).startdate = DateTime.now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
+                          print(Provider.of<StepsCall>(context, listen: false).startdate);
+
+                          await Provider.of<StepsCall>(context, listen: false).fetchsteps(); //i fetch the steps start to remove the first time i get the egg
+
+                        }
+                        else{
+                          await Provider.of<StepsCall>(context, listen: false).fetchsteps();
+                          if (Provider.of<StepsCall>(context, listen: false)
+                                  .getSumSteps >=
+                              Provider.of<GeneratePokemon>(context, listen: false)
+                                  .getStepstoHatch) {
+                            Navigator.pushNamed(
+                                context,
+                                FoundPokemonPage
+                                    .route); //if number of steps >= steps to hatch the egg
+                          }
                         }
                         Provider.of<StepsCall>(context, listen: false)
                             .updateFetchButtonLoading(); //when finish loading set to false
@@ -94,7 +104,7 @@ class _BarstepsState extends State<Barsteps> {
                       child: Text(Provider.of<StepsCall>(context, listen: false)
                               .errorfetchsteps
                           ? 'Ops, an error occured, retry'
-                          : 'Fetch your steps'), //If i have en error dispaly retry
+                          : (Provider.of<StepsCall>(context, listen: false).firstabsolutefetch ? "Let's start" : 'Fetch your steps')), //If i have en error dispaly retry // if first fetch for the egg display start
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
                         shape: RoundedRectangleBorder(
@@ -102,7 +112,7 @@ class _BarstepsState extends State<Barsteps> {
                         elevation: 10,
                       ),
                     )
-                  : const Pokeloader(), //if i'm loading display pokeloader
+                  : Pokeloader(), //if i'm loading display pokeloader
             ),
           ),
         ),

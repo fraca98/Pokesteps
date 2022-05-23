@@ -42,6 +42,7 @@ dependencies:
   fitbitter: ^1.1.1 #to import fibit data
   percent_indicator: ^4.0.1 #to create the progress indicator bar -->the package has be manually corrected in a section to guarantee not null
   material_design_icons_flutter: ^5.0.6595 #to have more icons
+  shared_preferences: ^2.0.15 #to store key-value data on disk
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

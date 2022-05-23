@@ -18,5 +18,12 @@ class Egg{
       hatchcounter: json['hatch_counter']
     );
   }//Egg.fromJson
+
+  //Encode to JSON
+  Map <String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'hatch_counter': hatchcounter
+  };
   
 }//Egg

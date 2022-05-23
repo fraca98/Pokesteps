@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
-import 'package:pokesteps/models/StepsCall.dart';
 import 'package:pokesteps/widget/widgetafteregg.dart';
 
 class PokemonPage extends StatefulWidget {
@@ -72,7 +71,6 @@ class _PokemonPageState extends State<PokemonPage> {
         Provider.of<GeneratePokemon>(context, listen: false).generateid();
         await Provider.of<GeneratePokemon>(context, listen: false)
             .callPokeApi();
-        Provider.of<StepsCall>(context, listen: false).startdate = DateTime.now(); //when i take the egg set startdate to fetch steps for the first time of this egg
       },
       child: const Text(
         'Take this Pokémon egg',
