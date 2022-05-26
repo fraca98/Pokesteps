@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:pokesteps/notifiers/Identity_Notifier.dart';
+import 'package:pokesteps/model/Identity.dart';
 import 'package:pokesteps/screen/SignUpPage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,17 +13,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isObscure = true; // used for obscure or not password
+  String? currentEmail;
+  String? currentPassword;
+
   final _formKey = GlobalKey<FormState>();
-  var rememberValue = false;
   TextEditingController _firstController = TextEditingController();
   TextEditingController _secondController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    IdentityNotifier identityNotifier = Provider.of<IdentityNotifier>(context);
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Container(
+          /*In BoxDecoration adding different color in background with different
+          gradient */
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -46,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
+                  /*Adding in the top of the screen the image of Pokesteps */
                   child: Image.asset(
                     'assets/images/pokesteps.jpg',
                     scale: 0.5,
@@ -68,24 +79,32 @@ class _LoginPageState extends State<LoginPage> {
                     key: _formKey,
                     child: Column(
                       children: [
+                        /*First TextFormField for e-mail*/
                         TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: _firstController,
-                          validator: (value) => EmailValidator.validate(value!)
+                          validator: (value) => EmailValidator.validate(
+                                  value!) // Use EmailValidator from the package install in pubspec.yaml
                               ? null
                               : "Please enter a valid email",
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter your email',
-                            prefixIcon: const Icon(Icons.email),
+                            prefixIcon: const Icon(
+                                Icons.email), //Image of the email icon
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          onSaved: (value) {
+                            currentEmail = value;
+                          },
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
+                          textInputAction: TextInputAction.done,
                           controller: _secondController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -94,14 +113,26 @@ class _LoginPageState extends State<LoginPage> {
                             return null;
                           },
                           maxLines: 1,
-                          obscureText: true,
+                          obscureText: isObscure,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                                icon: Icon(isObscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    isObscure = !isObscure;
+                                  });
+                                }),
                             hintText: 'Enter your password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          onSaved: (value) {
+                            currentPassword = value;
+                          },
                         ),
                         const SizedBox(
                           height: 20,
@@ -109,14 +140,9 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              /*inserire qui HomePage*/ Navigator.pushNamed(
-                                      context, '/HomePage')
-                                  .then((value) {
-                                _firstController
-                                    .clear(); //elimina email quando si esce
-                                _secondController
-                                    .clear(); //elimina password quando si esce
-                              });
+                              identityNotifier.addIdentity(
+                                  Identity(currentEmail, currentPassword));
+                              Navigator.pushNamed(context, '/HomePage');
                             } else {
                               //Navigator.pushNamed(context, '/HomePage');
                               //return null;
