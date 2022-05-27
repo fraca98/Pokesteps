@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
+import 'package:pokesteps/model/IdentitySignUp.dart';
+import 'package:pokesteps/notifiers/Identity_Notifier_SignUp.dart';
 import 'package:pokesteps/screen/LoginPage.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -11,10 +14,20 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  var rememberValue = false;
+  TextEditingController _firstPasswordController = TextEditingController();
+  TextEditingController _secondPasswordController = TextEditingController();
+  bool isObscure = true;
+  bool isObscure1 = true;
+  String? currentNameSignUp;
+  String? currentSurnameSignUp;
+  String? currentEmailSignUp;
+  String? currentPasswordSignUp;
 
   @override
   Widget build(BuildContext context) {
+    IdentityNotifierSignUp identityNotifierSignUp =
+        Provider.of<IdentityNotifierSignUp>(context);
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -59,10 +72,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            validator: (value) =>
-                                EmailValidator.validate(value!)
-                                    ? null
-                                    : "Please enter a valid first name",
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your First Name';
+                              }
+                              return null;
+                            },
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: 'First name',
@@ -71,6 +87,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                            onSaved: (value) {
+                              currentNameSignUp = value;
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -78,10 +97,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            validator: (value) =>
-                                EmailValidator.validate(value!)
-                                    ? null
-                                    : "Please enter a valid last name",
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your Last Name';
+                              }
+                              return null;
+                            },
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: 'Last name',
@@ -90,6 +112,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                            onSaved: (value) {
+                              currentSurnameSignUp = value;
+                            },
                           ),
                         ),
                       ],
@@ -98,6 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
@@ -109,11 +135,16 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
+                      onSaved: (value) {
+                        currentEmailSignUp = value;
+                      },
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: _firstPasswordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
@@ -121,9 +152,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         return null;
                       },
                       maxLines: 1,
-                      obscureText: true,
+                      obscureText: isObscure,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                            icon: Icon(isObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            }),
                         hintText: 'Enter your password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -133,9 +173,114 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    TextFormField(
+                      textInputAction: TextInputAction.done,
+                      controller: _secondPasswordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password again';
+                        }
+
+                        /*switch (_firstPasswordController.text !=
+                            _secondPasswordController.text) {
+                          case true:
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                elevation: 5.0,
+                                backgroundColor: Colors.lightBlue,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(25)),
+                                title: Text('Attention !!!'),
+                                content: Text('Password incorrect'),
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      "OK",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    onPressed: () {
+                                      //Put your code here which you want to execute on Yes button click.
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                            break;
+                        }*/
+
+                        if (_firstPasswordController.text !=
+                            _secondPasswordController.text) {
+                          return 'ATTENTION!!!!!  PASSWORD DO NOT MATCH';
+                        }
+                      },
+                      maxLines: 1,
+                      obscureText: isObscure1,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                            icon: Icon(isObscure1
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                isObscure1 = !isObscure1;
+                              });
+                            }),
+                        hintText: 'Enter your password to confirm',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onSaved: (value) {
+                        currentPasswordSignUp = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          identityNotifierSignUp.addIdentity(IdentitySignUp(
+                              currentNameSignUp,
+                              currentSurnameSignUp,
+                              currentEmailSignUp,
+                              currentPasswordSignUp));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        } else {
+                          //Parentesi prima dell'else
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              elevation: 5.0,
+                              backgroundColor: Colors.yellowAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(25)),
+                              title: Text('Attention !!!'),
+                              content: Text('Some errors'),
+                              actions: [
+                                TextButton(
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    //Put your code here which you want to execute on Yes button click.
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
