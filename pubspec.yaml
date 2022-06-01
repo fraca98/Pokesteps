@@ -33,6 +33,7 @@ dependencies:
   email_validator: ^2.0.1
   material_design_icons_flutter: ^5.0.6595
   provider: ^6.0.3
+  flutter_pw_validator: ^1.4.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
