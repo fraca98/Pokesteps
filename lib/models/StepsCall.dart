@@ -31,7 +31,7 @@ class StepsCall extends ChangeNotifier {
     var stringstartdate = prefs?.getString('startdate');
     if (stringstartdate != null){
       startdate = DateTime.parse(stringstartdate); //retrieve the value of startdate if stored, else it has to be setted when i press start (so the value is again null)
-    }
+    } //parse to convert String to DateTime
     //print(startdate);
 
     savedlastdate = prefs?.getString('savedlastdate'); //if not defined null --> no pressed start

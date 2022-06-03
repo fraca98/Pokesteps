@@ -65,34 +65,47 @@ class _BarstepsState extends State<Barsteps> {
         Container(
           height: 70,
           child: Center(
-            child: 
-            Consumer<StepsCall>(
+            child: Consumer<StepsCall>(
               builder: (context, value, child) => Provider.of<StepsCall>(
                               context,
                               listen: false)
                           .fetchbuttonloading ==
                       false
-                  ? ElevatedButton( //if i'm not loading display the button
+                  ? ElevatedButton(
+                      //if i'm not loading display the button
                       onPressed: () async {
                         Provider.of<StepsCall>(context, listen: false)
                             .updateFetchButtonLoading(); //set to true when loading
-                        
-                        if (Provider.of<StepsCall>(context, listen: false).firstabsolutefetch==true) { //first absolute fetch for that egg
-                          await Provider.of<StepsCall>(context, listen: false).authentication();
 
-                          Provider.of<StepsCall>(context, listen: false).startdate = DateTime.now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
-                          print(Provider.of<StepsCall>(context, listen: false).startdate);
+                        if (Provider.of<StepsCall>(context, listen: false)
+                                .firstabsolutefetch ==
+                            true) {
+                          //first absolute fetch for that egg
+                          await Provider.of<StepsCall>(context, listen: false)
+                              .authentication();
 
-                          await Provider.of<StepsCall>(context, listen: false).fetchsteps(); //i fetch the steps start to remove the first time i get the egg
+                          Provider.of<StepsCall>(context, listen: false)
+                                  .startdate =
+                              DateTime
+                                  .now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
+                          //print(Provider.of<StepsCall>(context, listen: false).startdate);
 
-                        }
-                        else{
-                          await Provider.of<StepsCall>(context, listen: false).fetchsteps();
+                          await Provider.of<StepsCall>(context, listen: false)
+                              .fetchsteps(); //i fetch the steps start to remove the first time i get the egg
+
+                        } else {
+                          await Provider.of<StepsCall>(context, listen: false)
+                              .fetchsteps();
                           if (Provider.of<StepsCall>(context, listen: false)
                                   .getSumSteps >=
-                              Provider.of<GeneratePokemon>(context, listen: false)
+                              Provider.of<GeneratePokemon>(context,
+                                      listen: false)
                                   .getStepstoHatch) {
-                            Navigator.pushNamed(
+                            await Provider.of<GeneratePokemon>(context,
+                                    listen: false)
+                                .updateopenlastegg(); //update database setting the last egg as open
+
+                            Navigator.pushReplacementNamed(
                                 context,
                                 FoundPokemonPage
                                     .route); //if number of steps >= steps to hatch the egg
@@ -104,7 +117,10 @@ class _BarstepsState extends State<Barsteps> {
                       child: Text(Provider.of<StepsCall>(context, listen: false)
                               .errorfetchsteps
                           ? 'Ops, an error occured, retry'
-                          : (Provider.of<StepsCall>(context, listen: false).firstabsolutefetch ? "Let's start" : 'Fetch your steps')), //If i have en error dispaly retry // if first fetch for the egg display start
+                          : (Provider.of<StepsCall>(context, listen: false)
+                                  .firstabsolutefetch
+                              ? "Let's start"
+                              : 'Fetch your steps')), //If i have en error dispaly retry // if first fetch for the egg display start
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
                         shape: RoundedRectangleBorder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokesteps/models/StepsCall.dart';
+import 'package:pokesteps/screens/RootPage.dart';
 import 'package:pokesteps/widget/pokeloader.dart';
 import 'package:provider/provider.dart';
 import '../models/GeneratePokemon.dart';
@@ -17,11 +18,31 @@ class FoundPokemonPage extends StatefulWidget {
 }
 
 class _FoundPokemonPageState extends State<FoundPokemonPage> {
+
+  @override
+  void initState() {
+    //_asyncmethod();
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) { //first build the page, then perform these methods (so i get no error when i set to null responsePokeApi)
+      //print("WidgetsBinding");
+      _asyncmethod();
+    });
+  }
+
+  _asyncmethod() async{
+    
+    await Provider.of<TakeEgg>(context, listen: false)
+                      .updateWalkEgg(); //i want to take a new egg (TakeEgg provider)
+    await Provider.of<GeneratePokemon>(context, listen: false)
+                      .clearEgg(); //to reset value contained in response of PokeApi
+    await Provider.of<StepsCall>(context, listen: false)
+                      .clearSumSteps(); //clear sumsteps when i want to take a new egg*/
+    await Future.delayed(Duration(seconds: 4)).then((value) => Navigator.pushReplacementNamed(context, RootPage.route),); //await 5 seconds and then push me to RootPage (no possibility to go back)
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, //deactivate go back button of the phone to avoid bug with navigator
-      child: Scaffold(
+    return Scaffold(
         backgroundColor:
             Colors.white, //Set background color of scaffold to white
         body: Center(
@@ -58,34 +79,9 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
                   },
                 ),
               ),
-              SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<TakeEgg>(context, listen: false)
-                      .updateWalkEgg(); //i want to take a new egg (TakeEgg provider)
-                  Navigator.pop(context); //Go back to the previous page
-                  Provider.of<GeneratePokemon>(context, listen: false)
-                      .clearPokeApi(); //to reset value contained in response of PokeApi
-                  Provider.of<StepsCall>(context, listen: false)
-                      .clearSumSteps(); //clear sumsteps when i want to take a new egg
-                },
-                child: Text(
-                  "Let's search a new egg",
-                  style: TextStyle(fontSize: 15),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0)),
-                  elevation: 10,
-                ),
-              ),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

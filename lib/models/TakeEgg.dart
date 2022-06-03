@@ -8,15 +8,14 @@ class TakeEgg extends ChangeNotifier { //to manage if i have already an egg or n
   
 
   TakeEgg(this.prefs){ //constructor for TakeEgg
-    _WalkEgg = prefs?.getBool('_WalkEgg') ?? false;
+    _WalkEgg = prefs?.getBool('_WalkEgg') ?? false; //retrieve the value of _WalkEgg, if null set it to false
   }
-
   //bool _WalkEgg = false; //false: not showing the bar--> i have to take the egg (first time value)
   //true: i want to hatch the egg: show the bar, perform the fecth of data, the button to fetch steps
 
-  bool get WalkEgg => _WalkEgg; //get the actual value of _ShowBar
+  bool get getWalkEgg => _WalkEgg; //get the actual value of _WalkEgg
 
-  void updateWalkEgg() async {
+  Future<void> updateWalkEgg() async {
     _WalkEgg = !_WalkEgg; //set the other true/false value
     //print('_WalkEgg: ${_WalkEgg}');
 

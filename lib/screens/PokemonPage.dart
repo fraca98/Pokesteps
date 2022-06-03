@@ -29,7 +29,7 @@ class _PokemonPageState extends State<PokemonPage> {
           builder: (context, value, child) => Text(
             //Consumer to rebuild only this widget
             Provider.of<TakeEgg>(context, listen: false)
-                    .WalkEgg //set listen: false cause i want to get this value without rebuilding all after
+                    .getWalkEgg //set listen: false cause i want to get this value without rebuilding all after
                 ? 'Walk to hatch this Pokémon egg' //if _WalkEgg is true (i have an egg: i want to hatch the egg)
                 : 'You have found a Pokémon egg', //if _WalkEgg is false (i have NOT an egg: i want to take the egg)
             style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -53,7 +53,7 @@ class _PokemonPageState extends State<PokemonPage> {
               height: 200,
               child: Center(
                 child: Provider.of<TakeEgg>(context, listen: false)
-                        .WalkEgg //want only to get the value to build, not rebuid all
+                        .getWalkEgg //want only to get the value
                     ? const widgetafteregg()
                     : _newEgg(
                         context), //if _WalkEgg true display bar, else the button _newEgg
