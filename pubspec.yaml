@@ -44,6 +44,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595 #to have more icons
   shared_preferences: ^2.0.15 #to store key-value data on disk
   floor: ^1.2.0 #to create database
+  cached_network_image: ^3.2.0 #to get image from network and save them into cache
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -106,6 +107,7 @@ flutter:
   assets:
     - assets/images/pokemonegg.png
     - assets/images/pokeloader.gif
+    - assets/images/errorpsyduck.png
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/GeneratePokemon.dart';
 import '../models/TakeEgg.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FoundPokemonPage extends StatefulWidget {
   const FoundPokemonPage({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
     await Future.delayed(Duration(seconds: 4)).then((value) => Navigator.pushReplacementNamed(context, RootPage.route),); //await 5 seconds and then push me to RootPage (no possibility to go back)
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,18 +58,10 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
               Container(
                 height: 450,
                 width: 450,
-                child: Image.network(
-                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${Provider.of<GeneratePokemon>(context, listen: false).getrnd_id}.png',
-                  fit: BoxFit.contain,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child; //while loading
-                    return Center(
-                      child: Pokeloader(),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Column(
+                child: CachedNetworkImage(
+                    imageUrl: 'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<GeneratePokemon>(context, listen: false).getrnd_id}.png',
+                    placeholder: (context, url) => Pokeloader(),
+                    errorWidget: (context, url, error) => Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/images/errorpsyduck.png',
@@ -75,9 +69,12 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
                         SizedBox(height: 10,),
                         Text('Ops, Psyduck has lost the image', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),)
                       ],
-                    );
-                  },
+                    ),
+                  ),
                 ),
+              Text(
+                '#ID ${Provider.of<GeneratePokemon>(context, listen: false).getrnd_id}',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ],
           ),

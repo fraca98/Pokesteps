@@ -21,6 +21,7 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: null,
       backgroundColor: Colors.white, //Set background color of scaffold to white
       body: _getBody(),
       bottomNavigationBar: _getFooter(),
