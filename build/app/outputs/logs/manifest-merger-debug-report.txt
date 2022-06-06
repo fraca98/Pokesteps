@@ -20,6 +20,7 @@ MERGED from C:\Users\Luca\Desktop\Pokesteps\android\app\src\main\AndroidManifest
 MERGED from [:shared_preferences_android] C:\Users\Luca\Desktop\Pokesteps\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_web_auth] C:\Users\Luca\Desktop\Pokesteps\build\flutter_web_auth\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] C:\Users\Luca\Desktop\Pokesteps\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider_android] C:\Users\Luca\Desktop\Pokesteps\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_secure_storage] C:\Users\Luca\Desktop\Pokesteps\build\flutter_secure_storage\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
 MERGED from [:flutter_native_splash] C:\Users\Luca\Desktop\Pokesteps\build\flutter_native_splash\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\Luca\.gradle\caches\transforms-2\files-2.1\ad201fac15a88598107ec645f351f5b4\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
@@ -75,6 +76,8 @@ MERGED from [:flutter_web_auth] C:\Users\Luca\Desktop\Pokesteps\build\flutter_we
 MERGED from [:flutter_web_auth] C:\Users\Luca\Desktop\Pokesteps\build\flutter_web_auth\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\Users\Luca\Desktop\Pokesteps\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\Users\Luca\Desktop\Pokesteps\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] C:\Users\Luca\Desktop\Pokesteps\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] C:\Users\Luca\Desktop\Pokesteps\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_secure_storage] C:\Users\Luca\Desktop\Pokesteps\build\flutter_secure_storage\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-11:53
 MERGED from [:flutter_secure_storage] C:\Users\Luca\Desktop\Pokesteps\build\flutter_secure_storage\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-11:53
 MERGED from [:flutter_native_splash] C:\Users\Luca\Desktop\Pokesteps\build\flutter_native_splash\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
