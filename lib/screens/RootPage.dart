@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:pokesteps/icons/pokeicons_icons.dart'; //Custom icons for BottomNavigationBar
 import 'package:pokesteps/screens/PokemonPage.dart';
 import 'package:pokesteps/screens/PokedexPage.dart';
 import 'package:pokesteps/screens/TrainerPage.dart';
-import 'package:pokesteps/models/BottomNavigationBarIndex.dart'; //Provider model for BottomNavigationBar
 
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
@@ -17,11 +15,13 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  PageController _pageController = PageController(); //control of PageView
+  final PageController _pageController = PageController(); //control of PageView
+  int selectedindex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: null,
       backgroundColor: Colors.white, //Set background color of scaffold to white
       body: _getBody(),
       bottomNavigationBar: _getFooter(),
@@ -32,16 +32,15 @@ class _RootPageState extends State<RootPage> {
     //Define the body of the Scaffold based on BottomNavigationBar model provider
     return PageView(
       controller: _pageController,
-      children: [
+      children: const [
         PokemonPage(), //0
         PokedexPage(), //1
         TrainerPage(), //2
       ],
-      onPageChanged: (page) {
-        Provider.of<BottomNavigationBarIndex>(context,
-                listen:
-                    false) //Not need to rebuild the widget, so not using consumer, just set action
-            .updatePageSelection(page); //update the index
+      onPageChanged: (index) {
+        setState(() {
+          selectedindex = index;
+        });
       },
     );
   }
@@ -51,11 +50,11 @@ class _RootPageState extends State<RootPage> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed, //Fixed BottomNavigationBar
       backgroundColor: Colors.white,
-      selectedItemColor: Color.fromARGB(255, 255, 0, 0),
+      selectedItemColor: const Color.fromARGB(255, 255, 0, 0),
       unselectedItemColor: Colors.black,
 
       iconSize: 50,
-      items: [
+      items: const [
         BottomNavigationBarItem(
             icon: Icon(Pokeicons.pikachu), label: 'Pokémon'),
         BottomNavigationBarItem(
@@ -63,14 +62,10 @@ class _RootPageState extends State<RootPage> {
         BottomNavigationBarItem(
             icon: Icon(Pokeicons.pokehat), label: 'Trainer'),
       ],
-      currentIndex: Provider.of<BottomNavigationBarIndex>(context).pageNow,
-      onTap: (int index) {
-        //onTap: i change the body when i select an icon on the BottomNavigationBar, i jump to another page
-        _pageController.jumpToPage(index);
-        Provider.of<BottomNavigationBarIndex>(context,
-                listen:
-                    false) //Not need to rebuild the widget, so not using consumer, just set action
-            .updatePageSelection(index);
+      currentIndex: selectedindex,
+      onTap: (index){
+        selectedindex = index;
+        _pageController.animateToPage(selectedindex, duration: Duration(milliseconds: 300), curve: Curves.ease);
       },
     );
   }

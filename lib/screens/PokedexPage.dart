@@ -5,6 +5,6 @@ class PokedexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('PokedexPage'));
+    return const Center(child: Text('PokedexPage'));
   }
 }
