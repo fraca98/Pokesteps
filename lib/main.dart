@@ -28,8 +28,6 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.white, //Set notification top bar color to white
-        statusBarIconBrightness: Brightness.dark, // For Android set dark icons
-        statusBarBrightness: Brightness.light, // For iOS set dark icons
       ),
     );
 
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg(prefs)),
         ChangeNotifierProvider<GeneratePokemon>(
-            create: (context) => GeneratePokemon(database, prefs)),
+            create: (context) => GeneratePokemon(database)),
         ChangeNotifierProvider<StepsCall>(
             create: (context) => StepsCall(prefs)),
       ],

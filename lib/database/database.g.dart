@@ -63,6 +63,8 @@ class _$AppDatabase extends AppDatabase {
 
   EggDao? _eggdaoInstance;
 
+  PokemonDao? _pokemonDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -82,7 +84,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Egg` (`idtable` INTEGER PRIMARY KEY AUTOINCREMENT, `id` INTEGER NOT NULL, `name` TEXT NOT NULL, `hatchcounter` INTEGER NOT NULL, `openegg` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `EggTable` (`autoid` INTEGER PRIMARY KEY AUTOINCREMENT, `id` INTEGER NOT NULL, `openegg` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `PokemonTable` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `hatchcounter` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -94,30 +98,31 @@ class _$AppDatabase extends AppDatabase {
   EggDao get eggdao {
     return _eggdaoInstance ??= _$EggDao(database, changeListener);
   }
+
+  @override
+  PokemonDao get pokemonDao {
+    return _pokemonDaoInstance ??= _$PokemonDao(database, changeListener);
+  }
 }
 
 class _$EggDao extends EggDao {
   _$EggDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _eggInsertionAdapter = InsertionAdapter(
+        _eggTableInsertionAdapter = InsertionAdapter(
             database,
-            'Egg',
-            (Egg item) => <String, Object?>{
-                  'idtable': item.idtable,
+            'EggTable',
+            (EggTable item) => <String, Object?>{
+                  'autoid': item.autoid,
                   'id': item.id,
-                  'name': item.name,
-                  'hatchcounter': item.hatchcounter,
                   'openegg': item.openegg ? 1 : 0
                 }),
-        _eggUpdateAdapter = UpdateAdapter(
+        _eggTableUpdateAdapter = UpdateAdapter(
             database,
-            'Egg',
-            ['idtable'],
-            (Egg item) => <String, Object?>{
-                  'idtable': item.idtable,
+            'EggTable',
+            ['autoid'],
+            (EggTable item) => <String, Object?>{
+                  'autoid': item.autoid,
                   'id': item.id,
-                  'name': item.name,
-                  'hatchcounter': item.hatchcounter,
                   'openegg': item.openegg ? 1 : 0
                 });
 
@@ -127,41 +132,83 @@ class _$EggDao extends EggDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Egg> _eggInsertionAdapter;
+  final InsertionAdapter<EggTable> _eggTableInsertionAdapter;
 
-  final UpdateAdapter<Egg> _eggUpdateAdapter;
+  final UpdateAdapter<EggTable> _eggTableUpdateAdapter;
 
   @override
-  Future<List<Egg>> findAllEggs() async {
-    return _queryAdapter.queryList('SELECT * FROM Egg',
-        mapper: (Map<String, Object?> row) => Egg(
-            idtable: row['idtable'] as int?,
+  Future<List<EggTable>> findAllEggs() async {
+    return _queryAdapter.queryList('SELECT * FROM EggTable',
+        mapper: (Map<String, Object?> row) => EggTable(
+            autoid: row['autoid'] as int?,
             id: row['id'] as int,
-            name: row['name'] as String,
-            hatchcounter: row['hatchcounter'] as int,
             openegg: (row['openegg'] as int) != 0));
   }
 
   @override
-  Future<Egg?> lastEgg() async {
+  Future<EggTable?> lastEgg() async {
     return _queryAdapter.query(
-        'SELECT * FROM Egg ORDER BY idtable DESC LIMIT 1',
-        mapper: (Map<String, Object?> row) => Egg(
-            idtable: row['idtable'] as int?,
+        'SELECT * FROM EggTable ORDER BY autoid DESC LIMIT 1',
+        mapper: (Map<String, Object?> row) => EggTable(
+            autoid: row['autoid'] as int?,
             id: row['id'] as int,
-            name: row['name'] as String,
-            hatchcounter: row['hatchcounter'] as int,
             openegg: (row['openegg'] as int) != 0));
   }
 
   @override
-  Future<void> insertEgg(Egg egg) async {
-    await _eggInsertionAdapter.insert(egg, OnConflictStrategy.abort);
+  Future<void> insertEgg(EggTable egg) async {
+    await _eggTableInsertionAdapter.insert(egg, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updatelastopenegg(Egg updatelastopenegg) async {
-    await _eggUpdateAdapter.update(
+  Future<void> updatelastopenegg(EggTable updatelastopenegg) async {
+    await _eggTableUpdateAdapter.update(
         updatelastopenegg, OnConflictStrategy.replace);
+  }
+}
+
+class _$PokemonDao extends PokemonDao {
+  _$PokemonDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _pokemonTableInsertionAdapter = InsertionAdapter(
+            database,
+            'PokemonTable',
+            (PokemonTable item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'hatchcounter': item.hatchcounter
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<PokemonTable> _pokemonTableInsertionAdapter;
+
+  @override
+  Future<List<PokemonTable>> findAllPokemon() async {
+    return _queryAdapter.queryList('SELECT * FROM PokemonTable',
+        mapper: (Map<String, Object?> row) => PokemonTable(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            hatchcounter: row['hatchcounter'] as int));
+  }
+
+  @override
+  Future<PokemonTable?> pokemonInfoId(int id) async {
+    return _queryAdapter.query('SELECT * FROM PokemonTable WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => PokemonTable(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            hatchcounter: row['hatchcounter'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertPokemon(PokemonTable pokemon) async {
+    await _pokemonTableInsertionAdapter.insert(
+        pokemon, OnConflictStrategy.rollback);
   }
 }

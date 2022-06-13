@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert'; //for jsonDecode
-import '../database/entities/Egg.dart'; 
+import 'package:pokesteps/models/Egg.dart';
 
 class Apicalls{
 

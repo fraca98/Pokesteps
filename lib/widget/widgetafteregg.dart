@@ -18,7 +18,7 @@ class _widgetaftereggState extends State<widgetafteregg> {
     return Consumer<GeneratePokemon>(
       builder: (context, value, child) => Provider.of<GeneratePokemon>(context,
                       listen: false)
-                  .getResponsePokeApi ==
+                  .responsePokeApi ==
               null
           ? const Pokeloader() //if it's null the response of PokeApi i want to show a loader (maybe is loading or error)
           : const Barsteps() //else i want to show the bar and buttons to perform the fetch of the steps

@@ -5,7 +5,7 @@ import 'package:pokesteps/models/GeneratePokemon.dart';
 import 'package:pokesteps/widget/widgetafteregg.dart';
 
 class PokemonPage extends StatefulWidget {
-  //StetafulWidget
+  
   const PokemonPage({Key? key}) : super(key: key);
 
   static const route = '/pokemonpage/';
