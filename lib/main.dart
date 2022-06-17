@@ -4,6 +4,8 @@ import 'package:pokesteps/notifiers/Identity_Notifier.dart';
 import 'package:pokesteps/notifiers/Identity_Notifier_SignUp.dart';
 import 'package:pokesteps/screen/SignUpPage.dart';
 import 'package:pokesteps/screen/LoginPage.dart';
+import 'package:pokesteps/screen/PrivacyPolicyPage.dart';
+import 'package:pokesteps/screen/TermsConditions.dart';
 
 void main() {
   runApp(
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginPage.route: (context) => LoginPage(),
         SignUpPage.route: (context) => SignUpPage(),
+        PrivacyPolicyPage.route: (context) => PrivacyPolicyPage(),
+        TermsConditionsPage.route: (context) => TermsConditionsPage(),
       },
     );
   }

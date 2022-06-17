@@ -241,6 +241,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         width: 400,
                         height: 100,
                         defaultColor: Colors.black87,
+                        successColor: Color.fromARGB(255, 47, 0, 255),
+                        failureColor: Color.fromARGB(255, 255, 17, 0),
                         onSuccess: () {
                           print("MATCHED");
                           ScaffoldMessenger.of(context).showSnackBar(

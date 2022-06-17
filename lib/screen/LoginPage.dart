@@ -194,6 +194,8 @@ class _LoginPageState extends State<LoginPage> {
                             width: 400,
                             height: 100,
                             defaultColor: Colors.black87,
+                            successColor: Color.fromARGB(255, 47, 0, 255),
+                            failureColor: Color.fromARGB(255, 255, 17, 0),
                             onSuccess: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   new SnackBar(
@@ -229,8 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                                   context: context,
                                   builder: (context) => AlertDialog(
                                     elevation: 5.0,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 230, 230, 211),
+                                    backgroundColor: Colors.yellowAccent,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             new BorderRadius.circular(25)),
@@ -289,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: 45,
                           ),
-                          Text('Update next')
+                          TermsPrivacy(context),
                         ],
                       ),
                     ),
@@ -322,4 +323,45 @@ int ControlMethodLoginPage(String value) {
     }
   }
   return count;
+}
+
+Widget TermsPrivacy(context) {
+  return Column(
+    children: [
+      Text("By creating an account, you are agreeing to our\n"),
+      Divider(
+        thickness: 2.0,
+        height: 2.0,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/TermsConditionsPage');
+              },
+              child: Text(
+                "Terms & Conditions ",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold),
+              )),
+          Text("and "),
+          TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/PrivacyPolicyPage');
+              },
+              child: Text(
+                "Privacy Policy! ",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold),
+              )),
+        ],
+      ),
+    ],
+  );
 }
