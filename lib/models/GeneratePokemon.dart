@@ -17,21 +17,21 @@ class GeneratePokemon extends ChangeNotifier{
   GeneratePokemon(this. database){ //Constructor for GeneratePokemon
     //print('GeneratePokemon constructor start');
     _init().then((_){ //defined cause i want to use an async constructor: do _init() --> then perform other things
-      //print('GeneratePokemon constructor end');
+    //print('GeneratePokemon constructor end');
     });
-
   }
 
   Future<void> _init() async{ //Use it to manage database (need await)
 
-    EggTable? last = await database.eggdao.lastEgg(); //take the last egg
+    EggTable? last = await database.eggdao.lastEgg(); //take the last egg in EggTable
     //print('last: $last');
-    //print(jsonEncode(last)); //to see value encode to Json
+    //print('last: ${jsonEncode(last)}'); //to see value encode to Json
 
-    if (last == null || last.openegg == true){ //i have not yet the egg (Not pressed the button) -> egg not present or last egg open
+    if (last == null || last.openegg == true){ //i have not the egg (Not pressed the button) -> egg not present (EggTable is empty) or last egg is open
+      //do nothing
     }
     else{ //else i have the egg in the table
-      PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(last.id); //check if in the table pokemon i have the info of the last egg
+      PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(last.id); //check if in the PokemonTable i have the info of the last egg
       //print('existPokemon: ${jsonEncode(existPokemon)}');
 
       if (existPokemon!=null){ //i have the info of the pokemon -> so just reload it in responsePokeApi
@@ -49,15 +49,13 @@ class GeneratePokemon extends ChangeNotifier{
     }
   }
 
-
-
-
   Future<void> generateid() async { //generate a random id for the pokemon
-    rnd_id = Random().nextInt(898) + 1;
+    rnd_id = Random().nextInt(4) + 1;
     //print('generateid function: ${rnd_id}'); //prind id random of pokemon generated
   }
 
   Future<void> onRestartcallPokeApi(EggTable last) async { //retrieve pokemon info on restart of the app if not present in the PokemonTable
+    //print('onRestartcallPokeApi');
     while(responsePokeApi == null) {
       //print('before');
       responsePokeApi = await Apicalls().fetchEgg(last.id); //keep callApi until i get a valid response
@@ -81,17 +79,17 @@ class GeneratePokemon extends ChangeNotifier{
     //print(EggTable(autoid: null, id:  rnd_id, openegg: false));
     //print(EggTable(autoid: null, id:  rnd_id, openegg: false).toJson()); //toJson to see egg
 
+    //first i add the EggTable entity to its table
     await database.eggdao.insertEgg(EggTable(autoid: null, id: rnd_id, openegg: false)); //! cause i'm sure that responsePokeApi is not null
     //print('the Egg has been added to the table');
 
-    /*List<EggTable>? res = await database.eggdao.findAllEggs(); //print Egg table
-    print('all_eggs: ${jsonEncode(res)}'); //encode in json to see list of Egg*/
+    List<EggTable>? res = await database.eggdao.findAllEggs(); //print Egg table
+    //print('all_eggs: ${jsonEncode(res)}'); //encode in json to see list of Egg*/
 
-    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id);
+    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg(closed)
     //print('existPokemon: ${jsonEncode(existPokemon)}'); 
 
-    //if my pokemon exists in the database don't call the Api but reload it
-    if (existPokemon == null){ //if the pokemon is not stored --> i need to collect and save these info in the PokemonTable
+    if (existPokemon == null){ //if the pokemon is not stored (existPokemon==null) --> i need to collect and save these info in the PokemonTable
       while(responsePokeApi == null) {
         //print('before');
         responsePokeApi = await Apicalls().fetchEgg(rnd_id); //keep callApi until i get a valid response
@@ -107,7 +105,7 @@ class GeneratePokemon extends ChangeNotifier{
       print('all_pokemon: ${jsonEncode(respoke)}'); //encode in json to see list of Pokemon*/
     
     }
-    else{
+    else{  //if my pokemon exists in the database don't call the Api but reload it
       responsePokeApi = Egg(id: rnd_id, name: existPokemon.name, hatchcounter: existPokemon.hatchcounter); //ricreate responsePokeApi
       //print(jsonEncode(responsePokeApi));
     }
@@ -126,7 +124,7 @@ class GeneratePokemon extends ChangeNotifier{
 
   }
 
-  Future<void> clearEgg() async{
+  Future<void> clearIdResponse() async{
     rnd_id = null; //remove the rnd_id defined
     responsePokeApi = null; //to reset the value of responsePokeApi when i have to get a new egg
   }

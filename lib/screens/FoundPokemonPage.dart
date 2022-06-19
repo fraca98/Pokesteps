@@ -21,7 +21,7 @@ class FoundPokemonPage extends StatefulWidget {
 class _FoundPokemonPageState extends State<FoundPokemonPage> {
   @override
   void initState() {
-    //_asyncmethod();
+    //print('FoundPokemonPage');
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       //first build the page, then perform these methods (so i get no error when i set to null responsePokeApi)
@@ -34,7 +34,7 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
     await Provider.of<TakeEgg>(context, listen: false)
         .updateWalkEgg(); //i want to take a new egg (TakeEgg provider)
     await Provider.of<GeneratePokemon>(context, listen: false)
-        .clearEgg(); //to reset value contained in response of PokeApi
+        .clearIdResponse(); //to reset value contained in response of PokeApi
     await Provider.of<StepsCall>(context, listen: false)
         .clearSumSteps(); //clear sumsteps when i want to take a new egg*/
     await Future.delayed(Duration(seconds: 4)).then(

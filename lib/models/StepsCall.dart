@@ -152,19 +152,19 @@ class StepsCall extends ChangeNotifier {
 
       } catch (err) {
         //fetching steps gives error
-        print(err);
+        print('error fetchsteps: $err');
         errorfetchsteps = true; //i have an error when fetching steps
       }
-    }
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
   
   int get getSumSteps => sumsteps!;
 
   Future<void> clearSumSteps() async {
     sumsteps = 0; //clear sumsteps value when i want to take a new egg
-    await prefs?.setInt('sumsteps', sumsteps!); //remove value
+    await prefs?.setInt('sumsteps', sumsteps!); //set value to 0 (for the new egg)
 
     firstabsolutefetch = true; //set first absolute fetch for the new egg
     await prefs?.setBool('firstabsolutefetch', true);
