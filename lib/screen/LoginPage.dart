@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                                             new BorderRadius.circular(25)),
                                     title: Text('Attention !!!'),
                                     content: Text(
-                                        'Email or password\nentered incorrectly'),
+                                        'Email, password\nentered incorrectly'),
                                     actions: [
                                       TextButton(
                                         child: Text(
@@ -329,10 +329,6 @@ Widget TermsPrivacy(context) {
   return Column(
     children: [
       Text("By creating an account, you are agreeing to our\n"),
-      Divider(
-        thickness: 2.0,
-        height: 2.0,
-      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
