@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:pokesteps/database/entities/PokemonTable.dart';
+import 'package:pokesteps/database/entities_db/PokemonTable.dart';
 
 //This class defines a dao
 @dao

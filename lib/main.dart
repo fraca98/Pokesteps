@@ -12,8 +12,11 @@ import 'database/database.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //to perform await/async in main
 
-  SharedPreferences? prefs = await SharedPreferences.getInstance(); //import sharedpreferences
-  final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build(); //This opens the database.
+  SharedPreferences? prefs =
+      await SharedPreferences.getInstance(); //import sharedpreferences
+  final AppDatabase database = await $FloorAppDatabase
+      .databaseBuilder('app_database.db')
+      .build(); //This opens the database.
 
   runApp(MyApp(database, prefs));
 }
@@ -25,14 +28,14 @@ class MyApp extends StatelessWidget {
 
   @override //This widget is the root of the application.
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.white, //Set notification top bar color to white
-      ),
-    );
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness
+          .dark, //set icons of statusBar to black (cause transparent statusBar(white))
+    ));
 
     return MultiProvider(
-      //ChangeNotifierProvider for BottomNavigationBar index
       providers: [
         ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg(prefs)),
         ChangeNotifierProvider<GeneratePokemon>(

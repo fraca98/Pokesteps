@@ -39,7 +39,7 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
         .clearSumSteps(); //clear sumsteps when i want to take a new egg*/
     await Future.delayed(Duration(seconds: 4)).then(
       (value) => Navigator.pushReplacementNamed(context, RootPage.route),
-    ); //await 5 seconds and then push me to RootPage (no possibility to go back)
+    ); //await 4 seconds and then push me to RootPage (no possibility to go back)
   }
 
   @override

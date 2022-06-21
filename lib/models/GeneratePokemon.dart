@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pokesteps/database/database.dart';
-import 'package:pokesteps/database/entities/EggTable.dart';
-import 'package:pokesteps/database/entities/PokemonTable.dart';
+import 'package:pokesteps/database/entities_db/EggTable.dart';
+import 'package:pokesteps/database/entities_db/PokemonTable.dart';
 import 'package:pokesteps/models/Apicalls.dart';
-import 'Egg.dart';
+import 'entities/Egg.dart';
 
 
 class GeneratePokemon extends ChangeNotifier{
-  var rnd_id;
+  var rnd_id; //declare the variable for the random id of the Egg/Pokémon
   Egg? responsePokeApi; //initally is assumed to be null the first time i open the app
-  bool firstEverEgg = true; //to manage the callPokeApi the first time ever: no Egg in the database
+  final int numberpk = 898; //Number of Pokémon
 
   AppDatabase database;
   GeneratePokemon(this. database){ //Constructor for GeneratePokemon
@@ -21,7 +21,7 @@ class GeneratePokemon extends ChangeNotifier{
     });
   }
 
-  Future<void> _init() async{ //Use it to manage database (need await)
+  Future<void> _init() async{ //Use it to manage database (need await) and when i re-open the app
 
     EggTable? last = await database.eggdao.lastEgg(); //take the last egg in EggTable
     //print('last: $last');
@@ -44,13 +44,11 @@ class GeneratePokemon extends ChangeNotifier{
         //print('I have NOT info of Pokemon');
         await onRestartcallPokeApi(last);
       }
-      
-
     }
   }
 
   Future<void> generateid() async { //generate a random id for the pokemon
-    rnd_id = Random().nextInt(4) + 1;
+    rnd_id = Random().nextInt(numberpk) + 1;
     //print('generateid function: ${rnd_id}'); //prind id random of pokemon generated
   }
 
@@ -65,7 +63,7 @@ class GeneratePokemon extends ChangeNotifier{
     print(responsePokeApi!.toJson());*/  //or //print(jsonEncode(responsePokeApi!));
 
     await database.pokemonDao.insertPokemon(PokemonTable(id: responsePokeApi!.id, name: responsePokeApi!.name, hatchcounter: responsePokeApi!.hatchcounter));
-    //print('the Pokemon has been added to the table');
+    //print('the Pokémon has been added to the table');
 
     /*List<PokemonTable>? respoke = await database.pokemonDao.findAllPokemon(); //print Pokemon table
     print('all_pokemon: ${jsonEncode(respoke)}'); //encode in json to see list of Pokemon*/
@@ -83,8 +81,8 @@ class GeneratePokemon extends ChangeNotifier{
     await database.eggdao.insertEgg(EggTable(autoid: null, id: rnd_id, openegg: false)); //! cause i'm sure that responsePokeApi is not null
     //print('the Egg has been added to the table');
 
-    List<EggTable>? res = await database.eggdao.findAllEggs(); //print Egg table
-    //print('all_eggs: ${jsonEncode(res)}'); //encode in json to see list of Egg*/
+    /*List<EggTable>? totegg = await database.eggdao.findAllEggs(); //print Egg table
+    //print('all_eggs: ${jsonEncode(totegg)}'); //encode in json to see list of Egg*/
 
     PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg(closed)
     //print('existPokemon: ${jsonEncode(existPokemon)}'); 
@@ -119,8 +117,8 @@ class GeneratePokemon extends ChangeNotifier{
     await database.eggdao.updatelastopenegg(eggtoup); //update the last egg as open in the database
     //print('updated last egg as open');
 
-    /*List<EggTable>? res = await database.eggdao.findAllEggs(); //print Egg table
-    print('all_eggs: ${jsonEncode(res)}'); //encode in json to see list of Egg*/
+    /*List<EggTable>? totegg = await database.eggdao.findAllEggs(); //print Egg table
+    print('all_eggs: ${jsonEncode(totegg)}'); //encode in json to see list of Egg*/
 
   }
 

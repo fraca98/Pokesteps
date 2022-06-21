@@ -5,8 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // to convert the D
 
 class StepsCall extends ChangeNotifier {
   int? sumsteps; //sum of steps to display in the bar
-  String? userId; //set to null when i open the app the first time
-  bool? isauthenticated; //to manage authentication
+  String? userId; //set to null when i open the app the first time or when i'm not authenticated
   bool fetchbuttonloading =
       false; //manage to avoid to re-press button while loading steps data
   bool errorfetchsteps = false; //to manage error when retrieving steps data: if error becomes true
@@ -24,9 +23,6 @@ class StepsCall extends ChangeNotifier {
     
     userId = prefs?.getString('userId'); //restore the userId if present to fetch fitbitdata, else is null
     //print(userId);
-
-    isauthenticated = prefs?.getBool('isauthenticated') ?? false; //restore, if null this means it's false: not authenticated
-    //print(isauthenticated);
 
     var stringstartdate = prefs?.getString('startdate');
     if (stringstartdate != null){
@@ -56,7 +52,7 @@ class StepsCall extends ChangeNotifier {
 
     //print('Authentication started');
 
-    isauthenticated == false
+    userId == null
         ? //if i have never been authenticated
         userId = await FitbitConnector.authorize(
             //context: context,
@@ -67,18 +63,9 @@ class StepsCall extends ChangeNotifier {
         : null;
     
     if (userId != null){
-      isauthenticated = true; //if userId exists (!null) so i'm correctly authemticated
-      await prefs?.setBool('isauthenticated', true);
       await prefs?.setString('userId', userId!); //! for sure userId != null (check above)
-
     }
-    else{
-      isauthenticated = false; //if i have userId != null so authentication finished, else repeat authentication step with the button (no fetch steps allowed)
-      await prefs?.setBool('isauthenticated', false);
-    }
-
     //print(userId);
-    //print(isauthenticated);
   }
 
   Future<void> fetchsteps() async {
@@ -88,7 +75,7 @@ class StepsCall extends ChangeNotifier {
     //print(startdate);
     //print(userId);
 
-    if (isauthenticated == true) {
+    if (userId != null) {
       //if i'm correctly authenticated
       //print('Doing fetch steps');
       try {

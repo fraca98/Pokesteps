@@ -1,4 +1,4 @@
-//The COMPLETE Egg model when i get my response from the PokeApi
+//The COMPLETE Egg model when i get the response from the PokéApi
 class Egg{
   
   final int id;

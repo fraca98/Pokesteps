@@ -1,14 +1,13 @@
 //Imports that are necessary to the code generator of floor
 import 'dart:async';
 import 'package:floor/floor.dart';
-import 'package:pokesteps/database/daos/pokemonDao.dart';
-import 'package:pokesteps/database/entities/EggTable.dart';
-import 'package:pokesteps/database/entities/PokemonTable.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 //Importing the entities and the daos of the database
-import 'daos/eggDao.dart';
-import 'entities/EggTable.dart';
+import 'package:pokesteps/database/daos/eggDao.dart';
+import 'package:pokesteps/database/daos/pokemonDao.dart';
+import 'package:pokesteps/database/entities_db/EggTable.dart';
+import 'package:pokesteps/database/entities_db/PokemonTable.dart';
 
 part 'database.g.dart'; // the generated code will be there
 
