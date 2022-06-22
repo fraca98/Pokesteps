@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:pokesteps/models/PokeTrainerProvider.dart';
 import 'package:pokesteps/screens/FoundPokemonPage.dart';
 import 'package:pokesteps/widget/pokeloader.dart';
 import 'package:provider/provider.dart';
@@ -109,6 +110,9 @@ class _BarstepsState extends State<Barsteps> {
                                 context,
                                 FoundPokemonPage
                                     .route); //if number of steps >= steps to hatch the egg
+
+                            await Provider.of<PokeTrainerProvider>(context, listen: false).showLoader(); //show the loader for Pokédex refresh
+                            await Provider.of<PokeTrainerProvider>(context, listen: false).updatenumberpokedex(); //refresh the number of Pokémon in Pokédex and refresh the entire Pokédex
                           }
                         }
                         Provider.of<StepsCall>(context, listen: false)
@@ -116,7 +120,7 @@ class _BarstepsState extends State<Barsteps> {
                       },
                       child: Text(Provider.of<StepsCall>(context, listen: false)
                               .errorfetchsteps
-                          ? 'Ops, an error occured, retry'
+                          ? 'Ops, an error occured, retry later'
                           : (Provider.of<StepsCall>(context, listen: false)
                                   .firstabsolutefetch
                               ? "Let's start"
