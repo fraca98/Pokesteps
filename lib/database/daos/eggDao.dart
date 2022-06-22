@@ -21,4 +21,13 @@ abstract class EggDao {
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updatelastopenegg(EggTable updatelastopenegg);
 
+  //QUERY -> the distinct Egg in EggTable that i have (opened unique Egg)
+  @Query('SELECT DISTINCT id,openegg FROM EggTable WHERE openegg=1 ORDER BY id ASC') //retrieve id,name DISTINCT (to not have duplicated Pokemon) where openegg is true and order by id desc(1,2,3...) //openegg==1(true) for SQLite package
+  Future<List<EggTable>> getnumberinpokedex(); //i don't specify idtable to be retrieved cause EggTable can assume it null, so i'll retrieve it null (not necessary btw)
+  
+  //DELETE ->delete the database
+  @Query('DELETE FROM EggTable')
+  Future<void> deleteAllEgg();
+
+
 }

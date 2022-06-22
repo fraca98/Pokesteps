@@ -4,10 +4,10 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 //Importing the entities and the daos of the database
-import 'package:pokesteps/database/daos/eggDao.dart';
-import 'package:pokesteps/database/daos/pokemonDao.dart';
 import 'package:pokesteps/database/entities_db/EggTable.dart';
 import 'package:pokesteps/database/entities_db/PokemonTable.dart';
+import 'daos/eggDao.dart';
+import 'package:pokesteps/database/daos/pokemonDao.dart';
 
 part 'database.g.dart'; // the generated code will be there
 

@@ -156,6 +156,21 @@ class _$EggDao extends EggDao {
   }
 
   @override
+  Future<List<EggTable>> getnumberinpokedex() async {
+    return _queryAdapter.queryList(
+        'SELECT DISTINCT id,openegg FROM EggTable WHERE openegg=1 ORDER BY id ASC',
+        mapper: (Map<String, Object?> row) => EggTable(
+            autoid: row['autoid'] as int?,
+            id: row['id'] as int,
+            openegg: (row['openegg'] as int) != 0));
+  }
+
+  @override
+  Future<void> deleteAllEgg() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM EggTable');
+  }
+
+  @override
   Future<void> insertEgg(EggTable egg) async {
     await _eggTableInsertionAdapter.insert(egg, OnConflictStrategy.abort);
   }
@@ -209,6 +224,6 @@ class _$PokemonDao extends PokemonDao {
   @override
   Future<void> insertPokemon(PokemonTable pokemon) async {
     await _pokemonTableInsertionAdapter.insert(
-        pokemon, OnConflictStrategy.rollback);
+        pokemon, OnConflictStrategy.ignore);
   }
 }

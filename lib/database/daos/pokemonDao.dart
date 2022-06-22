@@ -10,7 +10,7 @@ abstract class PokemonDao {
   Future<List<PokemonTable>> findAllPokemon();
 
   //INSERT --> this allows to insert a pokemon in the table
-  @Insert(onConflict: OnConflictStrategy.rollback) //if already exist, skip
+  @Insert(onConflict: OnConflictStrategy.ignore) //if already exist, skip
   Future<void> insertPokemon(PokemonTable pokemon);
 
   //SELECT -> retrieve Pokemon info given his id

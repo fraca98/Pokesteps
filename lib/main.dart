@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart'; //To use SystemChrome:set notification bar color, icons notification bar color...
+import 'package:shared_preferences/shared_preferences.dart';
+import 'database/database.dart';
 import 'package:pokesteps/screens/RootPage.dart';
 import 'package:pokesteps/screens/FoundPokemonPage.dart';
+import 'package:pokesteps/screens/DetailPokemon.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
 import 'package:pokesteps/models/StepsCall.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'database/database.dart';
+import 'package:pokesteps/models/PokeTrainerProvider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //to perform await/async in main
@@ -42,6 +45,8 @@ class MyApp extends StatelessWidget {
             create: (context) => GeneratePokemon(database)),
         ChangeNotifierProvider<StepsCall>(
             create: (context) => StepsCall(prefs)),
+        ChangeNotifierProvider<PokeTrainerProvider>(
+            create: (context) => PokeTrainerProvider(database)),
       ],
       child: MaterialApp(
         title: 'pokesteps',
@@ -53,6 +58,7 @@ class MyApp extends StatelessWidget {
         routes: {
           RootPage.route: (context) => RootPage(),
           FoundPokemonPage.route: (context) => FoundPokemonPage(),
+          DetailPokemon.route: (context) => DetailPokemon(),
         },
       ),
     );
