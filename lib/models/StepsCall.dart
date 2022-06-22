@@ -137,6 +137,22 @@ class StepsCall extends ChangeNotifier {
 
         errorfetchsteps = false; //i have not an error
 
+      } on Exception catch (tokenerr) { //Exception due to access token
+        print('tokenerr: $tokenerr');
+        errorfetchsteps = true; //i have an error when fetching steps
+        print('Re-authorize'); //When access token is no more valid re-authorize
+        userId = await FitbitConnector.authorize(
+            //context: context,
+            clientID: '238CG7',
+            clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',
+            redirectUri: 'example://fitbit/auth',
+            callbackUrlScheme: 'example');
+        print(userId);
+        if (userId != null) {
+          await prefs?.setString(
+              'userId', userId!); //! for sure userId != null (check above)
+
+        }
       } catch (err) {
         //fetching steps gives error
         print('error fetchsteps: $err');
