@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
     IdentityNotifier identityNotifier = Provider.of<IdentityNotifier>(context);
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      //backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                               currentPassword = value;
                             },
                           ),
-                          Divider(
+                          /*Divider(
                             thickness: 3.0,
                           ),
                           FlutterPwValidator(
@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                             onFail: () {
                               print("NOT MATCHED");
                             },
-                          ),
+                          ),*/
                           /*---------------------------------------------------------------------------------------------------------------------*/
                           /*---------------------------------------------------------------------------------------------------------------------*/
                           /*---------------------------------------------------------------------------------------------------------------------*/
@@ -288,7 +288,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           SizedBox(
-                            height: 45,
+                            height: 75,
                           ),
                           TermsPrivacy(context),
                         ],

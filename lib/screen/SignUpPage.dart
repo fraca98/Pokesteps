@@ -40,8 +40,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    IdentityNotifierSignUp identityNotifierSignUp =
-        Provider.of<IdentityNotifierSignUp>(context);
+    //IdentityNotifierSignUp identityNotifierSignUp =
+    //    Provider.of<IdentityNotifierSignUp>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -332,11 +332,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            identityNotifierSignUp.addIdentity(IdentitySignUp(
+                            /*identityNotifierSignUp.addIdentity(IdentitySignUp(
                                 currentNameSignUp,
                                 currentSurnameSignUp,
                                 currentEmailSignUp,
-                                currentPasswordSignUp));
+                                currentPasswordSignUp));*/
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

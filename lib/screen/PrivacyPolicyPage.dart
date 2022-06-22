@@ -44,9 +44,9 @@ class PrivacyPolicyPage extends StatelessWidget {
             </head>
             <body>
             <strong>Privacy Policy</strong> <p>
-                    Luca Fraccasetti, Giovanni Silvestri, and Giacomo Milani built the Pokesteps app as
+                    Luca Fracasetti, Giovanni Silvestri, and Giacomo Milani built the Pokesteps app as
                     a Free app. This SERVICE is provided by
-                    Luca Fraccasetti, Giovanni Silvestri, and Giacomo Milani at no cost and is intended for use as
+                    Luca Fracasetti, Giovanni Silvestri, and Giacomo Milani at no cost and is intended for use as
                     is.
                   </p> <p>
                     This page is used to inform visitors regarding my
