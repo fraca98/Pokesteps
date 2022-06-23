@@ -176,6 +176,15 @@ class StepsCall extends ChangeNotifier {
     savedlaststeps = null;
     await prefs?.remove('savedlastdate'); //remove and reset savedlastdate
     savedlastdate = null;
+  }
 
+  Future<void> unauthorize() async { //to unauthorize Fitbit
+    await FitbitConnector.unauthorize(
+      clientID: '238CG7',
+      clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',
+    );
+
+    userId = null;
+    await prefs?.remove('userId');
   }
 }
