@@ -1,4 +1,0 @@
-#Sat Jun 18 13:44:36 CEST 2022
-base.0=C\:\\Users\\Luca\\Desktop\\Pokesteps\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

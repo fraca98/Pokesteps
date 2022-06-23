@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
       hideForgotPasswordButton: true,
       onRecoverPassword: _recoverPassword, //not showed recover password
+      disableCustomPageTransformer: true, //avoid bug (#97) flutter_login github
 
       userType: LoginUserType.email,
       userValidator: (value) =>
