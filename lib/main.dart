@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:pokesteps/models/LoginPrefs.dart';
+import 'package:pokesteps/models/PokeTrainerProvider.dart';
+import 'package:pokesteps/screens/DetailPokemon.dart';
+import 'package:pokesteps/screens/LoginPage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart'; //To use SystemChrome:set notification bar color, icons notification bar color...
-import 'package:shared_preferences/shared_preferences.dart';
-import 'database/database.dart';
 import 'package:pokesteps/screens/RootPage.dart';
 import 'package:pokesteps/screens/FoundPokemonPage.dart';
-import 'package:pokesteps/screens/DetailPokemon.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
 import 'package:pokesteps/models/StepsCall.dart';
-import 'package:pokesteps/models/PokeTrainerProvider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'database/database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //to perform await/async in main
 
-  SharedPreferences? prefs =
-      await SharedPreferences.getInstance(); //import sharedpreferences
-  final AppDatabase database = await $FloorAppDatabase
-      .databaseBuilder('app_database.db')
-      .build(); //This opens the database.
+  SharedPreferences? prefs = await SharedPreferences.getInstance(); //import sharedpreferences
+
+  print('logged: ${prefs.getBool('logged')}');
+  print(prefs.getString('email'));
+  print(prefs.getString('password'));
+
+  final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build(); //This opens the database.
 
   runApp(MyApp(database, prefs));
 }
@@ -31,14 +34,14 @@ class MyApp extends StatelessWidget {
 
   @override //This widget is the root of the application.
   Widget build(BuildContext context) {
-
+    
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness
-          .dark, //set icons of statusBar to black (cause transparent statusBar(white))
+      statusBarIconBrightness: Brightness.dark, //set icons of statusBar to black (cause transparent statusBar, it's white)
     ));
 
     return MultiProvider(
+      //ChangeNotifierProvider for BottomNavigationBar index
       providers: [
         ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg(prefs)),
         ChangeNotifierProvider<GeneratePokemon>(
@@ -47,6 +50,8 @@ class MyApp extends StatelessWidget {
             create: (context) => StepsCall(prefs)),
         ChangeNotifierProvider<PokeTrainerProvider>(
             create: (context) => PokeTrainerProvider(database)),
+        ChangeNotifierProvider<LoginPrefs>(
+            create: (context) => LoginPrefs(prefs)),
       ],
       child: MaterialApp(
         title: 'pokesteps',
@@ -54,8 +59,10 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors
               .white, //set primary color to white, also for app theme visualization linked to the app of the icon
         ),
-        initialRoute: RootPage.route,
+
+        initialRoute: prefs.getBool('logged') == true ? RootPage.route : LoginPage.route,
         routes: {
+          LoginPage.route: (context) => LoginPage(),
           RootPage.route: (context) => RootPage(),
           FoundPokemonPage.route: (context) => FoundPokemonPage(),
           DetailPokemon.route: (context) => DetailPokemon(),

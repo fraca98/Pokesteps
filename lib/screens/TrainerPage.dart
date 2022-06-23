@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:pokesteps/models/LoginPrefs.dart';
 import 'package:pokesteps/models/PokeTrainerProvider.dart';
 import 'package:pokesteps/models/StepsCall.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
+import 'package:pokesteps/screens/LoginPage.dart';
 import 'package:pokesteps/widget/pokeloader.dart';
 import 'package:provider/provider.dart';
 
@@ -206,12 +208,26 @@ class _TrainerPageState extends State<TrainerPage> {
   }
 
   void _toLoginPage(BuildContext context) async {
-    //Pop the Alert diaogue first
+    //Unset the 'username' filed in SharedPreference
+    Provider.of<LoginPrefs>(context, listen: false)
+        .prefs
+        ?.setBool('logged', false);
+    //Pop the drawer first
     Navigator.pop(context);
+    //Then pop the HomePage
+    Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 
   void _Delete(BuildContext context) async {
-    //Pop the Alert diaogue first
+    Provider.of<LoginPrefs>(context, listen: false)
+        .prefs
+        ?.setBool('logged', false);
+    Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('email');
+    Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('password');
+
+    //Pop the drawer first
     Navigator.pop(context);
+    //Then pop the HomePage
+    Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 }

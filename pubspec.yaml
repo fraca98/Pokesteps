@@ -45,6 +45,8 @@ dependencies:
   shared_preferences: ^2.0.15 #to store key-value data on disk
   floor: ^1.2.0 #to create database
   cached_network_image: ^3.2.0 #to get image from network and save them into cache
+  flutter_login: ^3.2.0 #for the login page
+  email_validator: ^2.0.1 #to validate email in login page
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -97,8 +99,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  #assets:
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -109,6 +110,7 @@ flutter:
     - assets/images/pokeloader.gif
     - assets/images/errorpsyduck.png
     - assets/images/missing.png
+    - assets/images/pokesteps.png
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
