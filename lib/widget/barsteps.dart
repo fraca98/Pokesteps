@@ -102,17 +102,11 @@ class _BarstepsState extends State<Barsteps> {
                               Provider.of<GeneratePokemon>(context,
                                       listen: false)
                                   .getStepstoHatch) {
-                            await Provider.of<GeneratePokemon>(context,
-                                    listen: false)
-                                .updateopenlastegg(); //update database setting the last egg as open
 
-                            Navigator.pushReplacementNamed(
-                                context,
-                                FoundPokemonPage
-                                    .route); //if number of steps >= steps to hatch the egg
-
+                            await Provider.of<GeneratePokemon>(context,listen: false).updateopenlastegg(); //update database setting the last egg as open
                             await Provider.of<PokeTrainerProvider>(context, listen: false).showLoader(); //show the loader for Pokédex refresh
                             await Provider.of<PokeTrainerProvider>(context, listen: false).updatenumberpokedex(); //refresh the number of Pokémon in Pokédex and refresh the entire Pokédex
+                            Navigator.pushReplacementNamed(context,FoundPokemonPage.route); //if number of steps >= steps to hatch the egg                           
                           }
                         }
                         Provider.of<StepsCall>(context, listen: false)
