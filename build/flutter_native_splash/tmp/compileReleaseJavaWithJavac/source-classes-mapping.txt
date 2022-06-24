@@ -1,0 +1,4 @@
+net/jonhanson/flutter_native_splash/FlutterNativeSplashPlugin.java
+ net.jonhanson.flutter_native_splash.FlutterNativeSplashPlugin
+net/jonhanson/flutter_native_splash/BuildConfig.java
+ net.jonhanson.flutter_native_splash.BuildConfig

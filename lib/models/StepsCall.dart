@@ -47,10 +47,10 @@ class StepsCall extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> authentication() async {
-    //function to perform authentication with fibit credentials
+  Future<void> authorizationFitbit() async {
+    //function to perform authorization with fibit credentials
 
-    //print('Authentication started');
+    //print('Authorization started');
 
     userId == null
         ? //if i have never been authenticated

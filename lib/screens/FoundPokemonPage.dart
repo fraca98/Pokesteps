@@ -53,10 +53,10 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
             Text(
               'You have found ${toBeginningOfSentenceCase(Provider.of<GeneratePokemon>(context, listen: false).responsePokeApi!.name)}', //use intl to set first letter of pokemon name to uppercase
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             Container(
-              height: 450,
-              width: 450,
+              height: MediaQuery.of(context).size.height * 0.7,
               child: CachedNetworkImage(
                 imageUrl:
                     'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<GeneratePokemon>(context, listen: false).responsePokeApi!.id}.png',
@@ -67,12 +67,13 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
                     Image.asset('assets/images/errorpsyduck.png',
                         fit: BoxFit.contain),
                     SizedBox(
-                      height: 10,
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
                     Text(
                       'Ops, Psyduck has lost the image',
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     )
                   ],
                 ),
@@ -81,6 +82,7 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
             Text(
               '#ID ${Provider.of<GeneratePokemon>(context, listen: false).responsePokeApi!.id}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

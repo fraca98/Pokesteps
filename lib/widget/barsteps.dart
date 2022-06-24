@@ -23,11 +23,11 @@ class _BarstepsState extends State<Barsteps> {
       //if i have the response of the PokeApi i want to show the progress bar and the button to fetch steps
       children: [
         SizedBox(
-          height: 20,
+          height: MediaQuery.of(context).size.height*0.04,
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: 20), //horizontal distance from margin
+              horizontal: MediaQuery.of(context).size.height*0.03), //horizontal distance from margin
           child: Consumer<StepsCall>(
             builder: (context, value, child) => LinearPercentIndicator(
               lineHeight: 30, //height of the bar
@@ -43,14 +43,14 @@ class _BarstepsState extends State<Barsteps> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: MediaQuery.of(context).size.height*0.02,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(MdiIcons.shoePrint),
             SizedBox(
-              width: 10,
+              width: MediaQuery.of(context).size.width*0.02,
             ),
             Consumer<StepsCall>(
               builder: (context, value, child) => Text(
@@ -61,72 +61,73 @@ class _BarstepsState extends State<Barsteps> {
           ],
         ),
         SizedBox(
-          height: 30,
+          height: MediaQuery.of(context).size.height*0.03,
         ),
-        Container(
-          height: 70,
-          child: Center(
-            child: Consumer<StepsCall>(
-              builder: (context, value, child) => Provider.of<StepsCall>(
-                              context,
-                              listen: false)
-                          .fetchbuttonloading ==
-                      false
-                  ? ElevatedButton(
-                      //if i'm not loading display the button
-                      onPressed: () async {
-                        Provider.of<StepsCall>(context, listen: false)
-                            .updateFetchButtonLoading(); //set to true when loading
-
-                        if (Provider.of<StepsCall>(context, listen: false)
-                                .firstabsolutefetch ==
-                            true) {
-                          //first absolute fetch for that egg
-                          await Provider.of<StepsCall>(context, listen: false)
-                              .authentication();
-
+        Expanded(
+          child: Container(
+            child: Center(
+              child: Consumer<StepsCall>(
+                builder: (context, value, child) => Provider.of<StepsCall>(
+                                context,
+                                listen: false)
+                            .fetchbuttonloading ==
+                        false
+                    ? ElevatedButton(
+                        //if i'm not loading display the button
+                        onPressed: () async {
                           Provider.of<StepsCall>(context, listen: false)
-                                  .startdate =
-                              DateTime
-                                  .now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
-                          //print(Provider.of<StepsCall>(context, listen: false).startdate);
-
-                          await Provider.of<StepsCall>(context, listen: false)
-                              .fetchsteps(); //i fetch the steps start to remove the first time i get the egg
-
-                        } else {
-                          await Provider.of<StepsCall>(context, listen: false)
-                              .fetchsteps();
+                              .updateFetchButtonLoading(); //set to true when loading
+        
                           if (Provider.of<StepsCall>(context, listen: false)
-                                  .getSumSteps >=
-                              Provider.of<GeneratePokemon>(context,
-                                      listen: false)
-                                  .getStepstoHatch) {
-
-                            await Provider.of<GeneratePokemon>(context,listen: false).updateopenlastegg(); //update database setting the last egg as open
-                            await Provider.of<PokeTrainerProvider>(context, listen: false).showLoader(); //show the loader for Pokédex refresh
-                            await Provider.of<PokeTrainerProvider>(context, listen: false).updatenumberpokedex(); //refresh the number of Pokémon in Pokédex and refresh the entire Pokédex
-                            Navigator.pushReplacementNamed(context,FoundPokemonPage.route); //if number of steps >= steps to hatch the egg                           
+                                  .firstabsolutefetch ==
+                              true) {
+                            //first absolute fetch for that egg
+                            await Provider.of<StepsCall>(context, listen: false)
+                                .authorizationFitbit();
+        
+                            Provider.of<StepsCall>(context, listen: false)
+                                    .startdate =
+                                DateTime
+                                    .now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
+                            //print(Provider.of<StepsCall>(context, listen: false).startdate);
+        
+                            await Provider.of<StepsCall>(context, listen: false)
+                                .fetchsteps(); //i fetch the steps start to remove the first time i get the egg
+        
+                          } else {
+                            await Provider.of<StepsCall>(context, listen: false)
+                                .fetchsteps();
+                            if (Provider.of<StepsCall>(context, listen: false)
+                                    .getSumSteps >=
+                                Provider.of<GeneratePokemon>(context,
+                                        listen: false)
+                                    .getStepstoHatch) {
+        
+                              await Provider.of<GeneratePokemon>(context,listen: false).updateopenlastegg(); //update database setting the last egg as open
+                              await Provider.of<PokeTrainerProvider>(context, listen: false).showLoader(); //show the loader for Pokédex refresh
+                              await Provider.of<PokeTrainerProvider>(context, listen: false).updatenumberpokedex(); //refresh the number of Pokémon in Pokédex and refresh the entire Pokédex
+                              Navigator.pushReplacementNamed(context,FoundPokemonPage.route); //if number of steps >= steps to hatch the egg                           
+                            }
                           }
-                        }
-                        Provider.of<StepsCall>(context, listen: false)
-                            .updateFetchButtonLoading(); //when finish loading set to false
-                      },
-                      child: Text(Provider.of<StepsCall>(context, listen: false)
-                              .errorfetchsteps
-                          ? 'Ops, an error occured, retry later'
-                          : (Provider.of<StepsCall>(context, listen: false)
-                                  .firstabsolutefetch
-                              ? "Let's start"
-                              : 'Fetch your steps')), //If i have en error dispaly retry // if first fetch for the egg display start
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(35.0)),
-                        elevation: 10,
-                      ),
-                    )
-                  : Pokeloader(), //if i'm loading display pokeloader
+                          Provider.of<StepsCall>(context, listen: false)
+                              .updateFetchButtonLoading(); //when finish loading set to false
+                        },
+                        child: Text(Provider.of<StepsCall>(context, listen: false)
+                                .errorfetchsteps
+                            ? 'Ops, an error occured, retry later'
+                            : (Provider.of<StepsCall>(context, listen: false)
+                                    .firstabsolutefetch
+                                ? "Let's start"
+                                : 'Fetch your steps')), //If i have en error dispaly retry // if first fetch for the egg display start
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(35.0)),
+                          elevation: 10,
+                        ),
+                      )
+                    : Pokeloader(), //if i'm loading display pokeloader
+              ),
             ),
           ),
         ),

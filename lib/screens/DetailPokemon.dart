@@ -44,14 +44,12 @@ class _DetailPokemonState extends State<DetailPokemon> {
       ),
       backgroundColor: Colors.white, //Set background color of scaffold to white
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 5,
-          ),
           Hero(
             tag: index,
             child: Container(
-              height: 300,
+              height: MediaQuery.of(context).size.height*0.5,
               child: CachedNetworkImage(
                 imageUrl:
                     'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].id}.png',
@@ -60,15 +58,10 @@ class _DetailPokemonState extends State<DetailPokemon> {
               ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(),
           Expanded(
             //expand container till the end of the page
             child: Container(
-              width: MediaQuery.of(context)
-                  .size
-                  .width, //width as the width of the page
               child: FutureBuilder(
                 future: Apicalls().detailApi(
                     Provider.of<PokeTrainerProvider>(context, listen: false)

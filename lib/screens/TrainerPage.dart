@@ -25,24 +25,22 @@ class _TrainerPageState extends State<TrainerPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 45,
+          height: MediaQuery.of(context).size.height*0.03,
         ),
         Text('Pokémon inside the Pokédex',
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
         SizedBox(
-          height: 20,
+          height: MediaQuery.of(context).size.height*0.03,
         ),
         Container(
-          height: 260,
-          child: Center(
-            child: Consumer<PokeTrainerProvider>(
+          child: Consumer<PokeTrainerProvider>(
               builder: (context, value, child) =>
                   Provider.of<PokeTrainerProvider>(context, listen: false)
                               .numberdiscovered ==
                           -1 //-1 numberdisovered: means loading
                       ? Pokeloader()
                       : CircularPercentIndicator(
-                          radius: 130.0,
+                          radius: MediaQuery.of(context).size.width*0.40,
                           animation: true,
                           animationDuration: 1200,
                           lineWidth: 30.0,
@@ -61,20 +59,16 @@ class _TrainerPageState extends State<TrainerPage> {
                           progressColor: Colors.red,
                         ),
             ),
-          ),
         ),
         SizedBox(
-          height: 100,
+          height: MediaQuery.of(context).size.height*0.15,
         ),
         Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 70,
-              ),
-              SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width*0.8,
                 child: Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -128,10 +122,10 @@ class _TrainerPageState extends State<TrainerPage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: MediaQuery.of(context).size.height*0.01,
               ),
               SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width*0.8,
                 child: Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -177,8 +171,10 @@ class _TrainerPageState extends State<TrainerPage> {
                                 await Provider.of<PokeTrainerProvider>(context,
                                         listen: false)
                                     .deleteallEggData();
-                                Provider.of<TakeEgg>(context, listen: false)
+                                await Provider.of<TakeEgg>(context, listen: false)
                                     .tofalse();
+
+                                await Provider.of<GeneratePokemon>(context, listen: false).clearIdResponse();
 
                                 //Here unauthorize
                                 Provider.of<StepsCall>(context, listen: false)

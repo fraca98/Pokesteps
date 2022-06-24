@@ -6,7 +6,7 @@ import 'package:pokesteps/screens/RootPage.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
-  static const route = '/';
+  static const route = '/login/';
   static const routename = 'LoginPage';
 
   @override

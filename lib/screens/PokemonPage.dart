@@ -32,25 +32,27 @@ class _PokemonPageState extends State<PokemonPage> {
                     .getWalkEgg //set listen: false cause i want to get this value without rebuilding all after
                 ? 'Walk to hatch this Pokémon egg' //if _WalkEgg is true (i have an egg: i want to hatch the egg)
                 : 'You have found a Pokémon egg', //if _WalkEgg is false (i have NOT an egg: i want to take the egg)
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(
-          height: 10,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.015,
         ),
-        SizedBox(
+        Container(
           child: Image.asset(
             'assets/images/pokemonegg.png',
             fit: BoxFit
                 .contain, //fill the image container as large as possible keeping dimensions of the image (no distorsion)
           ),
-          height: 300, //define the height of the container
-          width: 300,
+          height: MediaQuery.of(context).size.height*0.38, //define the height of the container
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height*0.015,
         ),
         Consumer<TakeEgg>(
           //rebuild only this widget with Consumer
-          builder: (context, value, child) => SizedBox(
-              height: 200,
+          builder: (context, value, child) => Container(
+              height: MediaQuery.of(context).size.height*0.25,
               child: Center(
                 child: Provider.of<TakeEgg>(context, listen: false)
                         .getWalkEgg //want only to get the value
