@@ -9,6 +9,7 @@ class StepsCall extends ChangeNotifier {
   bool fetchbuttonloading =
       false; //manage to avoid to re-press button while loading steps data
   bool errorfetchsteps = false; //to manage error when retrieving steps data: if error becomes true
+  late String errorMessage; //errorMessage to be displayed
 
   DateTime? startdate; //start day date for fetching steps  (late cause i promise i will provide NOT NULL value)
 
@@ -68,6 +69,7 @@ class StepsCall extends ChangeNotifier {
     }
     else{
       errorfetchsteps = true;
+      errorMessage = 'Retry authorization';
     }
     //print(userId);
   }
@@ -144,13 +146,14 @@ class StepsCall extends ChangeNotifier {
         print('tokenerr: $tokenerr');
         errorfetchsteps = true; //i have an error when fetching steps
         print('Need to re-authorize'); //i need to re-authorize --> so set userId to null so when call authorizationFitbit it now checks to authorize
+        errorMessage = 'Re-authorize';
         userId = null;
         await prefs?.remove('userId');
       }
        catch (err) {
-        //fetching steps gives error --> ex. missing internet connection --> the use of ! on nul values gives me errors
         print('error fetchsteps: $err');
-        errorfetchsteps = true; //i have an error when fetching steps
+        errorfetchsteps = true; //i have an error when fetching steps --> for example too many requests
+        errorMessage = 'Ops, retry later';
       }
       notifyListeners();
     }

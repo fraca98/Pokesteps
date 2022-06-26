@@ -1,11 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
+import 'package:pokesteps/models/PokeTrainerProvider.dart';
 import 'package:pokesteps/screens/DetailPokemon.dart';
 import 'package:pokesteps/widget/pokeloader.dart';
-import 'package:provider/provider.dart';
-import '../models/PokeTrainerProvider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PokedexPage extends StatefulWidget {
   const PokedexPage({Key? key}) : super(key: key);

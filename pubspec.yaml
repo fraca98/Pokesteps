@@ -47,6 +47,7 @@ dependencies:
   cached_network_image: ^3.2.0 #to get image from network and save them into cache
   flutter_login: ^3.2.0 #for the login page
   email_validator: ^2.0.1 #to validate email in login page
+  internet_connection_checker: ^0.0.1+3 #to check internet connection
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

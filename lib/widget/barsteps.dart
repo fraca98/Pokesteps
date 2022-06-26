@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'dart:math';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -75,9 +76,11 @@ class _BarstepsState extends State<Barsteps> {
                     ? ElevatedButton(
                         //if i'm not loading display the button
                         onPressed: () async {
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Provider.of<StepsCall>(context, listen: false)
                               .updateFetchButtonLoading(); //set to true when loading
-        
+                          
+                          if (await InternetConnectionChecker().hasConnection == true){        
                           if (Provider.of<StepsCall>(context, listen: false)
                                   .firstabsolutefetch ==
                               true) {
@@ -111,12 +114,22 @@ class _BarstepsState extends State<Barsteps> {
                               Navigator.pushReplacementNamed(context,FoundPokemonPage.route); //if number of steps >= steps to hatch the egg                           
                             }
                           }
+                          }else{
+                             final snackbar = SnackBar(content: Row(children: [
+                                    Icon(Icons.signal_wifi_connected_no_internet_4, color: Colors.white,),
+                                    SizedBox(width: 10,),
+                                    Text('No internet connection available')],
+                                    ),
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 2),);
+                                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                          }
                           Provider.of<StepsCall>(context, listen: false)
                               .updateFetchButtonLoading(); //when finish loading set to false
                         },
                         child: Text(Provider.of<StepsCall>(context, listen: false)
                                 .errorfetchsteps
-                            ? 'Ops, an error occured, retry'
+                            ? Provider.of<StepsCall>(context, listen: false).errorMessage
                             : (Provider.of<StepsCall>(context, listen: false)
                                     .firstabsolutefetch
                                 ? "Let's start"

@@ -22,46 +22,49 @@ class _PokemonPageState extends State<PokemonPage> {
   }
 
   Widget _eggdisplay(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Consumer<TakeEgg>(
-          builder: (context, value, child) => Text(
-            //Consumer to rebuild only this widget
-            Provider.of<TakeEgg>(context, listen: false)
-                    .getWalkEgg //set listen: false cause i want to get this value without rebuilding all after
-                ? 'Walk to hatch this Pokémon egg' //if _WalkEgg is true (i have an egg: i want to hatch the egg)
-                : 'You have found a Pokémon egg', //if _WalkEgg is false (i have NOT an egg: i want to take the egg)
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,
+    return Align(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Consumer<TakeEgg>(
+            builder: (context, value, child) => Text(
+              //Consumer to rebuild only this widget
+              Provider.of<TakeEgg>(context, listen: false)
+                      .getWalkEgg //set listen: false cause i want to get this value without rebuilding all after
+                  ? 'Walk to hatch this Pokémon egg' //if _WalkEgg is true (i have an egg: i want to hatch the egg)
+                  : 'You have found a Pokémon egg', //if _WalkEgg is false (i have NOT an egg: i want to take the egg)
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,
+            ),
           ),
-        ),
-         SizedBox(
-          height: MediaQuery.of(context).size.height*0.015,
-        ),
-        Container(
-          child: Image.asset(
-            'assets/images/pokemonegg.png',
-            fit: BoxFit
-                .contain, //fill the image container as large as possible keeping dimensions of the image (no distorsion)
+           SizedBox(
+            height: MediaQuery.of(context).size.height*0.015,
           ),
-          height: MediaQuery.of(context).size.height*0.38, //define the height of the container
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height*0.015,
-        ),
-        Consumer<TakeEgg>(
-          //rebuild only this widget with Consumer
-          builder: (context, value, child) => Container(
-              height: MediaQuery.of(context).size.height*0.25,
-              child: Center(
-                child: Provider.of<TakeEgg>(context, listen: false)
-                        .getWalkEgg //want only to get the value
-                    ? const widgetafteregg()
-                    : _newEgg(
-                        context), //if _WalkEgg true display bar, else the button _newEgg
-              )),
-        ),
-      ],
+          Container(
+            child: Image.asset(
+              'assets/images/pokemonegg.png',
+              fit: BoxFit
+                  .contain, //fill the image container as large as possible keeping dimensions of the image (no distorsion)
+            ),
+            height: MediaQuery.of(context).size.height*0.38, //define the height of the container
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.015,
+          ),
+          Consumer<TakeEgg>(
+            //rebuild only this widget with Consumer
+            builder: (context, value, child) => Container(
+                height: MediaQuery.of(context).size.height*0.25,
+                child: Center(
+                  child: Provider.of<TakeEgg>(context, listen: false)
+                          .getWalkEgg //want only to get the value
+                      ? const widgetafteregg()
+                      : _newEgg(
+                          context), //if _WalkEgg true display bar, else the button _newEgg
+                )),
+          ),
+        ],
+      ),
     );
   }
 

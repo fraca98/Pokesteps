@@ -43,108 +43,106 @@ class _DetailPokemonState extends State<DetailPokemon> {
             color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
       ),
       backgroundColor: Colors.white, //Set background color of scaffold to white
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Hero(
-            tag: index,
-            child: Container(
-              height: MediaQuery.of(context).size.height*0.4,
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].id}.png',
-                placeholder: (context, url) => Pokeloader(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+      body: Align(
+        alignment: Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Hero(
+              tag: index,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].id}.png',
+                  placeholder: (context, url) => Pokeloader(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ),
             ),
-          ),
-          SizedBox(),
-          Expanded(
-            //expand container till the end of the page
-            child: Container(
-              child: FutureBuilder(
-                future: Apicalls().detailApi(
-                    Provider.of<PokeTrainerProvider>(context, listen: false)
-                        .pokemondatable![idxPokemon - 1]
-                        .id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final det = snapshot.data as Detail;
-                    //print('det: $det');
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        DataTable(
-                          rows: [
-                            DataRow(
-                              cells: [
-                                DataCell(Text(
-                                  '#ID',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                                DataCell(Text(
-                                  '${det.id}',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                              ],
-                            ),
-                            DataRow(
-                              cells: [
-                                DataCell(Text(
-                                  'Height',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                                DataCell(Text(
-                                  '${(det.height * 0.1).toStringAsFixed(2)} m',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                              ],
-                            ),
-                            DataRow(
-                              cells: [
-                                DataCell(Text(
-                                  'Weight',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                                DataCell(Text(
-                                  '${(det.weight * 0.1).toStringAsFixed(2)} kg',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                              ],
-                            ),
-                            DataRow(
-                              cells: [
-                                DataCell(Text(
-                                  'Steps to hatch the egg',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                                DataCell(Text(
-                                  '${(Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].hatchcounter + 1)*255} ',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                              ],
-                            ),
-                          ],
-                          columns: [
-                            DataColumn(
-                                label: Text(
-                              'Details',
-                              style: TextStyle(fontSize: 20),
-                            )),
-                            DataColumn(label: Container()),
-                          ],
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Pokeloader();
-                  }
-                },
+            SizedBox(height: MediaQuery.of(context).size.height*0.1,),
+            Expanded(
+              //expand container till the end of the page
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: FutureBuilder(
+                  future: Apicalls().detailApi(
+                      Provider.of<PokeTrainerProvider>(context, listen: false)
+                          .pokemondatable![idxPokemon - 1]
+                          .id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final det = snapshot.data as Detail;
+                      //print('det: $det');
+                      return DataTable(
+                        rows: [
+                          DataRow(
+                            cells: [
+                              DataCell(Text(
+                                '#ID',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                              DataCell(Text(
+                                '${det.id}',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                            ],
+                          ),
+                          DataRow(
+                            cells: [
+                              DataCell(Text(
+                                'Height',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                              DataCell(Text(
+                                '${(det.height * 0.1).toStringAsFixed(2)} m',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                            ],
+                          ),
+                          DataRow(
+                            cells: [
+                              DataCell(Text(
+                                'Weight',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                              DataCell(Text(
+                                '${(det.weight * 0.1).toStringAsFixed(2)} kg',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                            ],
+                          ),
+                          DataRow(
+                            cells: [
+                              DataCell(Text(
+                                'Steps to hatch the egg',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                              DataCell(Text(
+                                '${(Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].hatchcounter + 1) * 255} ',
+                                style: TextStyle(fontSize: 20),
+                              )),
+                            ],
+                          ),
+                        ],
+                        columns: [
+                          DataColumn(
+                              label: Text(
+                            'Details',
+                            style: TextStyle(fontSize: 20),
+                          )),
+                          DataColumn(label: Container()),
+                        ],
+                      );
+                    } else {
+                      return Pokeloader();
+                    }
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
