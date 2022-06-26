@@ -22,7 +22,7 @@ void main() async {
   print(prefs.getString('email'));
   print(prefs.getString('password'));
 
-  final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build(); //This opens the database.
+  final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build(); //This opens the database
 
   runApp(MyApp(database, prefs));
 }
@@ -35,14 +35,13 @@ class MyApp extends StatelessWidget {
   @override //This widget is the root of the application.
   Widget build(BuildContext context) {
     
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle( //change the style of the statusBar
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark, //set icons of statusBar to black (cause transparent statusBar, it's white)
     ));
 
     return MultiProvider(
-      //ChangeNotifierProvider for BottomNavigationBar index
-      providers: [
+      providers: [ //Providers required to manage the state of the app
         ChangeNotifierProvider<TakeEgg>(create: (context) => TakeEgg(prefs)),
         ChangeNotifierProvider<GeneratePokemon>(
             create: (context) => GeneratePokemon(database)),
@@ -60,7 +59,7 @@ class MyApp extends StatelessWidget {
               .white, //set primary color to white, also for app theme visualization linked to the app of the icon
         ),
 
-        initialRoute: prefs.getBool('logged') == true ? RootPage.route : LoginPage.route,
+        initialRoute: prefs.getBool('logged') == true ? RootPage.route : LoginPage.route, //if i'm logged display RootPage else LoginPage
         routes: {
           LoginPage.route: (context) => LoginPage(),
           RootPage.route: (context) => RootPage(),

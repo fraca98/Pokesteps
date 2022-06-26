@@ -27,20 +27,20 @@ class GeneratePokemon extends ChangeNotifier{
     //print('last: $last');
     //print('last: ${jsonEncode(last)}'); //to see value encode to Json
 
-    if (last == null || last.openegg == true){ //i have not the egg (Not pressed the button) -> egg not present (EggTable is empty) or last egg is open
+    if (last == null || last.openegg == true){ //i have not the egg --> egg not present (EggTable is empty) or last egg is open
       //do nothing
     }
     else{ //else i have the egg in the table
       PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(last.id); //check if in the PokemonTable i have the info of the last egg
       //print('existPokemon: ${jsonEncode(existPokemon)}');
 
-      if (existPokemon!=null){ //i have the info of the pokemon -> so just reload it in responsePokeApi
+      if (existPokemon!=null){ //i have the info of the pokemon --> so just reload it in responsePokeApi
         //print('I have info of Pokemon');
         responsePokeApi = Egg(id: existPokemon.id, name: existPokemon.name, hatchcounter: existPokemon.hatchcounter);
         //print('responsePokeApi: ${jsonEncode(responsePokeApi)}');
         notifyListeners();
       }
-      else{ //if i have NOT the info of the pokemon -->i need to retrieve these info from the Api
+      else{ //if i have NOT the info of the pokemon --> i need to retrieve these info from the PokeApi
         //print('I have NOT info of Pokemon');
         await onRestartcallPokeApi(last);
       }
@@ -78,19 +78,19 @@ class GeneratePokemon extends ChangeNotifier{
     //print(EggTable(autoid: null, id:  rnd_id, openegg: false).toJson()); //toJson to see egg
 
     //first i add the EggTable entity to its table
-    await database.eggdao.insertEgg(EggTable(autoid: null, id: rnd_id, openegg: false)); //! cause i'm sure that responsePokeApi is not null
+    await database.eggdao.insertEgg(EggTable(autoid: null, id: rnd_id, openegg: false));
     //print('the Egg has been added to the table');
 
     /*List<EggTable>? totegg = await database.eggdao.findAllEggs(); //print Egg table
     //print('all_eggs: ${jsonEncode(totegg)}'); //encode in json to see list of Egg*/
 
-    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg(closed)
+    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg of EggTable(closed)
     //print('existPokemon: ${jsonEncode(existPokemon)}'); 
 
     if (existPokemon == null){ //if the pokemon is not stored (existPokemon==null) --> i need to collect and save these info in the PokemonTable
       while(responsePokeApi == null) {
         //print('before');
-        responsePokeApi = await Apicalls().fetchEgg(rnd_id); //keep callApi until i get a valid response
+        responsePokeApi = await Apicalls().fetchEgg(rnd_id); //keep calling PokeApi until i get a valid response
         //print('after');      
       }
      /*print(responsePokeApi);
@@ -122,12 +122,12 @@ class GeneratePokemon extends ChangeNotifier{
 
   }
 
-  Future<void> clearIdResponse() async{
+  Future<void> clearIdResponse() async{ //when i want to take a new Egg or when i delete the account
     rnd_id = null; //remove the rnd_id defined
-    responsePokeApi = null; //to reset the value of responsePokeApi when i have to get a new egg
+    responsePokeApi = null; //to reset the value of responsePokeApi
   }
 
-  int get getStepstoHatch => 255*(responsePokeApi!.hatchcounter + 1);
+  int get getStepstoHatch => 255*(responsePokeApi!.hatchcounter + 1); //formula that gives the number of steps to hatch the egg given hatchcounter
 
 
 }

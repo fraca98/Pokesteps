@@ -30,9 +30,9 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
     });
   }
 
-  _asyncmethod() async {
+  Future<void> _asyncmethod() async {
     await Provider.of<TakeEgg>(context, listen: false)
-        .updateWalkEgg(); //i want to take a new egg (TakeEgg provider)
+        .updateWalkEgg(); //i want to take a new egg (TakeEgg provider) -->update _WalkEgg
     await Provider.of<GeneratePokemon>(context, listen: false)
         .clearIdResponse(); //to reset value contained in response of PokeApi
     await Provider.of<StepsCall>(context, listen: false)

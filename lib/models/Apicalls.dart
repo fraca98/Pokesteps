@@ -24,7 +24,7 @@ class Apicalls{
   //This utility method is used to fetch the info of the Pokémon in the Pokédex data using the PokeAPI (pokemon)
   Future<Detail?> detailApi(int id) async {
   bool found = false;
-  while (found == false) {
+  while (found == false) { //keep sending request until a get the correct response (200)
     try {
       final url = 'https://pokeapi.co/api/v2/pokemon/$id';
       final response = await http.get(Uri.parse(url));

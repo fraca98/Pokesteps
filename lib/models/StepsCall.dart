@@ -53,7 +53,7 @@ class StepsCall extends ChangeNotifier {
     //print('Authorization started');
 
     userId == null
-        ? //if i have never been authenticated
+        ? //never been authorized
         userId = await FitbitConnector.authorize(
             //context: context,
             clientID: '238CG7',
@@ -64,6 +64,10 @@ class StepsCall extends ChangeNotifier {
     
     if (userId != null){
       await prefs?.setString('userId', userId!); //! for sure userId != null (check above)
+      errorfetchsteps = false;
+    }
+    else{
+      errorfetchsteps = true;
     }
     //print(userId);
   }
@@ -71,7 +75,6 @@ class StepsCall extends ChangeNotifier {
   Future<void> fetchsteps() async {
     //function to retrieve steps data
     //print('Check if need fetch steps');
-    //print(isauthenticated);
     //print(startdate);
     //print(userId);
 
@@ -137,28 +140,18 @@ class StepsCall extends ChangeNotifier {
 
         errorfetchsteps = false; //i have not an error
 
-      } on Exception catch (tokenerr) { //Exception due to access token
+      } on Exception catch (tokenerr) { //Exception due to access token or user gives me wrong data to access
         print('tokenerr: $tokenerr');
         errorfetchsteps = true; //i have an error when fetching steps
-        print('Re-authorize'); //When access token is no more valid re-authorize
-        userId = await FitbitConnector.authorize(
-            //context: context,
-            clientID: '238CG7',
-            clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',
-            redirectUri: 'example://fitbit/auth',
-            callbackUrlScheme: 'example');
-        print(userId);
-        if (userId != null) {
-          await prefs?.setString(
-              'userId', userId!); //! for sure userId != null (check above)
-
-        }
-      } catch (err) {
-        //fetching steps gives error
+        print('Need to re-authorize'); //i need to re-authorize --> so set userId to null so when call authorizationFitbit it now checks to authorize
+        userId = null;
+        await prefs?.remove('userId');
+      }
+       catch (err) {
+        //fetching steps gives error --> ex. missing internet connection --> the use of ! on nul values gives me errors
         print('error fetchsteps: $err');
         errorfetchsteps = true; //i have an error when fetching steps
       }
-
       notifyListeners();
     }
   }
@@ -179,6 +172,7 @@ class StepsCall extends ChangeNotifier {
   }
 
   Future<void> unauthorize() async { //to unauthorize Fitbit
+    print('Unauthorize');
     await FitbitConnector.unauthorize(
       clientID: '238CG7',
       clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',

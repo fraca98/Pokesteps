@@ -14,7 +14,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _firstPasswordController = TextEditingController();
 
   Duration get loginTime => Duration(milliseconds: 2250);
 
@@ -28,25 +27,25 @@ class _LoginPageState extends State<LoginPage> {
                   ?.getString('email') !=
               null
           ? null
-          : _signupUser,
-      onSubmitAnimationCompleted: () {
+          : _signupUser, //display the signup if the email is not saved (this means never registered)
+      onSubmitAnimationCompleted: () { //when i complete signup or perform correct login
         Provider.of<LoginPrefs>(context, listen: false)
             .prefs
             ?.setBool('logged', true);
         _toHomePage(context);
       },
 
-      loginAfterSignUp: true,
+      loginAfterSignUp: true, //login after signup
 
-      hideForgotPasswordButton: true,
+      hideForgotPasswordButton: true, //not showed recover password
       onRecoverPassword: _recoverPassword, //not showed recover password
       disableCustomPageTransformer: true, //avoid bug (#97) flutter_login github
 
-      userType: LoginUserType.email,
+      userType: LoginUserType.email, //email as user
       userValidator: (value) =>
-          EmailValidator.validate(value!) ? null : "Please enter a valid email",
+          EmailValidator.validate(value!) ? null : "Please enter a valid email", //validate the email
 
-      termsOfService: [
+      termsOfService: [ //defining terms of service to be accepted to use the app
         TermOfService(
             id: 'privacy',
             mandatory: true,
@@ -74,10 +73,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _toHomePage(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(RootPage.route);
-  } //_toHomePage
+    Navigator.of(context).pushReplacementNamed(RootPage.route); //go to RootPage without possibility to go back
+  }
 
-  Future<String?> _authUser(LoginData data) {
+  Future<String?> _authUser(LoginData data) { //login check
     return Future.delayed(loginTime).then((_) {
       if (data.name !=
           Provider.of<LoginPrefs>(context, listen: false)
@@ -95,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Future<String?> _signupUser(SignupData data) {
+  Future<String?> _signupUser(SignupData data) { //performing signup when correct
     print('Signup Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) {
       if (data.name != null && data.password != null) {
@@ -105,15 +104,12 @@ class _LoginPageState extends State<LoginPage> {
         Provider.of<LoginPrefs>(context, listen: false)
             .prefs!
             .setString('password', data.password!);
-        Provider.of<LoginPrefs>(context, listen: false)
-            .prefs!
-            .setBool('logged', true);
       }
       return null;
     });
   }
 
-  Future<String> _recoverPassword(String name) {
+  Future<String> _recoverPassword(String name) { //Not defined cause hidden
     return Future.delayed(loginTime).then((_) {
       return '';
     });

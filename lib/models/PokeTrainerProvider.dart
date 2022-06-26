@@ -12,7 +12,7 @@ class PokeTrainerProvider extends ChangeNotifier{
 
   late int numberdiscovered;
   PokeTrainerProvider(this.database){
-    numberdiscovered = -1; //initially when initialized the constructor of provider (on start of the app) set it to -1 --> i show the loader
+    numberdiscovered = -1; //initially when initialized the constructor of provider (on start of the app) set it to -1 --> i show the loader (check when calling PokeLoader in the screens of Pokedex and TrainerPage)
 
     _init().then((_){});
   }
@@ -22,7 +22,6 @@ class PokeTrainerProvider extends ChangeNotifier{
   }
 
   Future<void> updatenumberpokedex() async{
-
   //print('updatenumberpokedex poketrainer provider');
 
   distinctOpenEggTable = await database.eggdao.getnumberinpokedex();
@@ -46,7 +45,5 @@ class PokeTrainerProvider extends ChangeNotifier{
     await showLoader(); //i want to show the loader when refreshing all
     await updatenumberpokedex();
   }
-
-
 
 }

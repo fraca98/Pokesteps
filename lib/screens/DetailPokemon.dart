@@ -49,7 +49,7 @@ class _DetailPokemonState extends State<DetailPokemon> {
           Hero(
             tag: index,
             child: Container(
-              height: MediaQuery.of(context).size.height*0.5,
+              height: MediaQuery.of(context).size.height*0.4,
               child: CachedNetworkImage(
                 imageUrl:
                     'https://raw.githubusercontent.com/fraca98/sprites/master/sprites/pokemon/other/home/${Provider.of<PokeTrainerProvider>(context, listen: false).pokemondatable![idxPokemon - 1].id}.png',
@@ -126,8 +126,6 @@ class _DetailPokemonState extends State<DetailPokemon> {
                               ],
                             ),
                           ],
-                          //headingRowHeight: 0,
-                          //dividerThickness: double.minPositive, //remove dividers of table
                           columns: [
                             DataColumn(
                                 label: Text(

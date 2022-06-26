@@ -33,6 +33,7 @@ class _TrainerPageState extends State<TrainerPage> {
           height: MediaQuery.of(context).size.height*0.03,
         ),
         Container(
+          height: MediaQuery.of(context).size.height*0.42,
           child: Consumer<PokeTrainerProvider>(
               builder: (context, value, child) =>
                   Provider.of<PokeTrainerProvider>(context, listen: false)
@@ -61,7 +62,7 @@ class _TrainerPageState extends State<TrainerPage> {
             ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height*0.15,
+          height: MediaQuery.of(context).size.height*0.10,
         ),
         Container(
           child: Column(

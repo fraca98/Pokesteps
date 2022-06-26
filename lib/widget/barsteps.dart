@@ -96,6 +96,8 @@ class _BarstepsState extends State<Barsteps> {
         
                           } else {
                             await Provider.of<StepsCall>(context, listen: false)
+                                .authorizationFitbit();
+                            await Provider.of<StepsCall>(context, listen: false)
                                 .fetchsteps();
                             if (Provider.of<StepsCall>(context, listen: false)
                                     .getSumSteps >=
@@ -114,7 +116,7 @@ class _BarstepsState extends State<Barsteps> {
                         },
                         child: Text(Provider.of<StepsCall>(context, listen: false)
                                 .errorfetchsteps
-                            ? 'Ops, an error occured, retry later'
+                            ? 'Ops, an error occured, retry'
                             : (Provider.of<StepsCall>(context, listen: false)
                                     .firstabsolutefetch
                                 ? "Let's start"
