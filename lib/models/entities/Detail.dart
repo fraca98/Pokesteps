@@ -1,4 +1,4 @@
-//The Detail of the Pokémon from call PokeApi
+//The Detail of the Pokémon from call PokeApi (used for the DetailPokemon)
 class Detail{
   
   final int id;

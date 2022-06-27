@@ -5,12 +5,11 @@ import 'package:pokesteps/database/entities_db/PokemonTable.dart';
 import '../database/database.dart';
 
 class PokeTrainerProvider extends ChangeNotifier{
-  late int numberinpokedex;
-  List<EggTable>? distinctOpenEggTable;
-  List<PokemonTable>? pokemondatable;
+  late int numberdiscovered; //number of Pokemon in the Pokedex (discovered --> opened unique Egg)
+  List<EggTable>? distinctOpenEggTable; //list of Egg in EggTable distint and opened
+  List<PokemonTable>? pokemondatable; //list containing all Pokémon saved in the PokemonTable (database)
   AppDatabase database;
 
-  late int numberdiscovered;
   PokeTrainerProvider(this.database){
     numberdiscovered = -1; //initially when initialized the constructor of provider (on start of the app) set it to -1 --> i show the loader (check when calling PokeLoader in the screens of Pokedex and TrainerPage)
 
@@ -24,10 +23,10 @@ class PokeTrainerProvider extends ChangeNotifier{
   Future<void> updatenumberpokedex() async{
   //print('updatenumberpokedex poketrainer provider');
 
-  distinctOpenEggTable = await database.eggdao.getnumberinpokedex();
+  distinctOpenEggTable = await database.eggdao.getnumberinpokedex(); //retrieve the distinct and opened Egg in EggTable
   //print('distinctOpenEggTable: ${jsonEncode(distinctOpenEggTable)}');
-  numberdiscovered = distinctOpenEggTable?.length ?? 0; //if a null-->length:0
-  //print('numberdiscovered: $numberdiscovered');
+  numberdiscovered = distinctOpenEggTable?.length ?? 0; //if null-->length:0
+  //print('numberdiscovered: $numberdiscovered'); //number of unique Egg(Pokémon) discovered
 
   pokemondatable = await database.pokemonDao.findAllPokemon(); //retrieve all Pokemon from PokemonTable
   //print(jsonEncode(pokemondatable)); //in Json to see all the Pokémons in PokemonTable

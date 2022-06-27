@@ -27,51 +27,54 @@ class _TrainerPageState extends State<TrainerPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.03,
+            height: MediaQuery.of(context).size.height * 0.03,
           ),
-          Text('Pokémon inside the Pokédex',
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+          Text(
+            'Pokémon inside the Pokédex',
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.03,
+            height: MediaQuery.of(context).size.height * 0.03,
           ),
           Container(
-            height: MediaQuery.of(context).size.height*0.42,
+            height: MediaQuery.of(context).size.height * 0.42,
             child: Consumer<PokeTrainerProvider>(
-                builder: (context, value, child) =>
-                    Provider.of<PokeTrainerProvider>(context, listen: false)
-                                .numberdiscovered ==
-                            -1 //-1 numberdisovered: means loading
-                        ? Pokeloader()
-                        : CircularPercentIndicator(
-                            radius: MediaQuery.of(context).size.width*0.40,
-                            animation: true,
-                            animationDuration: 1200,
-                            lineWidth: 30.0,
-                            percent: Provider.of<PokeTrainerProvider>(context,
-                                        listen: false)
-                                    .numberdiscovered /
-                                Provider.of<GeneratePokemon>(context,
-                                        listen: false)
-                                    .numberpk,
-                            center: Text(
-                              "${Provider.of<PokeTrainerProvider>(context, listen: false).numberdiscovered}/${Provider.of<GeneratePokemon>(context, listen: false).numberpk} ",
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20.0),
-                            ),
-                            circularStrokeCap: CircularStrokeCap.butt,
-                            progressColor: Colors.red,
+              builder: (context, value, child) =>
+                  Provider.of<PokeTrainerProvider>(context, listen: false)
+                              .numberdiscovered ==
+                          -1 //-1 numberdisovered: means loading
+                      ? Pokeloader()
+                      : CircularPercentIndicator(
+                          radius: MediaQuery.of(context).size.width * 0.40,
+                          animation: true,
+                          animationDuration: 1200,
+                          lineWidth: 30.0,
+                          percent: Provider.of<PokeTrainerProvider>(context,
+                                      listen: false)
+                                  .numberdiscovered /
+                              Provider.of<GeneratePokemon>(context,
+                                      listen: false)
+                                  .numberpk,
+                          center: Text(
+                            "${Provider.of<PokeTrainerProvider>(context, listen: false).numberdiscovered}/${Provider.of<GeneratePokemon>(context, listen: false).numberpk} ",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
-              ),
+                          circularStrokeCap: CircularStrokeCap.butt,
+                          progressColor: Colors.red,
+                        ),
+            ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.04,
+            height: MediaQuery.of(context).size.height * 0.04,
           ),
           Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width*0.8,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -87,50 +90,51 @@ class _TrainerPageState extends State<TrainerPage> {
                       onTap: () {
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.logout),
-                              SizedBox(
-                                width: 10,
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.logout),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Logout',
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              'Are you sure to logout?',
+                              textAlign: TextAlign.center,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  _toLoginPage(context);
+                                },
+                                child: Text('Yes'),
                               ),
-                              Text(
-                                'Logout',
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('No'),
                               ),
                             ],
                           ),
-                          content: Text(
-                            'Are you sure to logout?',
-                            textAlign: TextAlign.center,
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () async {
-                                _toLoginPage(context);
-                              },
-                              child: Text('Yes'),
-                            ),
-                            TextButton(
-                              onPressed: () async{
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('No'),
-                            ),
-                          ],
-                        ),
-                      );},
+                        );
+                      },
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height*0.01,
+                  height: MediaQuery.of(context).size.height * 0.01,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width*0.8,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -167,40 +171,56 @@ class _TrainerPageState extends State<TrainerPage> {
                           actions: [
                             TextButton(
                                 onPressed: () async {
-    
-                                  if (await InternetConnectionChecker().hasConnection == true){
-                                  Provider.of<StepsCall>(context, listen: false)
-                                          .errorfetchsteps =
-                                      false; //reset che button of PokemonPage to fetch oif there's an error to no error now
-                                  await Provider.of<StepsCall>(context,
-                                          listen: false)
-                                      .clearSumSteps();
-                                  await Provider.of<PokeTrainerProvider>(context,
-                                          listen: false)
-                                      .deleteallEggData();
-                                  await Provider.of<TakeEgg>(context, listen: false)
-                                      .tofalse();
-    
-                                  await Provider.of<GeneratePokemon>(context, listen: false).clearIdResponse();
-    
-                                  //Here unauthorize
-                                  Provider.of<StepsCall>(context, listen: false)
-                                      .unauthorize();
-    
-                                  _Delete(context);
-                                  print('Deleted all');
-                                  }
-                                  else{
+                                  if (await InternetConnectionChecker()
+                                          .hasConnection ==
+                                      true) { //delete account only if there's internet connection (required for unauthorize)
+                                    Provider.of<StepsCall>(context,
+                                                listen: false)
+                                            .errorfetchsteps =
+                                        false; //reset the button of PokemonPage to fetch if there's an error to no error
+                                    await Provider.of<StepsCall>(context,
+                                            listen: false)
+                                        .clearSumSteps();
+                                    await Provider.of<PokeTrainerProvider>(
+                                            context,
+                                            listen: false)
+                                        .deleteallEggData(); //delete all elements in EggTable
+                                    await Provider.of<TakeEgg>(context,
+                                            listen: false)
+                                        .tofalse();
+                                    await Provider.of<GeneratePokemon>(context,
+                                            listen: false)
+                                        .clearIdResponse();
+                                    Provider.of<StepsCall>(context,
+                                            listen: false)
+                                        .unauthorize();
+                                    _Delete(context); //to manage delete account for LoginPage
+
+                                    print('Deleted all');
+                                  } else { //if not internet connection display snackbar with message for the user
                                     print('No internet connection');
                                     Navigator.of(context).pop();
-                                    final snackbar = SnackBar(content: Row(children: [
-                                      Icon(Icons.signal_wifi_connected_no_internet_4, color: Colors.white,),
-                                      SizedBox(width: 10,),
-                                      Text('No internet connection available')],
+                                    final snackbar = SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons
+                                                .signal_wifi_connected_no_internet_4,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                              'No internet connection available')
+                                        ],
                                       ),
-                                    behavior: SnackBarBehavior.floating,
-                                    duration: Duration(seconds: 2),);
-                                    ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(snackbar);
+                                      behavior: SnackBarBehavior.floating,
+                                      duration: Duration(seconds: 2),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                      ..removeCurrentSnackBar()
+                                      ..showSnackBar(snackbar);
                                   }
                                 },
                                 child: Text('Yes')),
@@ -225,11 +245,10 @@ class _TrainerPageState extends State<TrainerPage> {
   }
 
   void _toLoginPage(BuildContext context) async {
-    //Unset the 'username' filed in SharedPreference
     Provider.of<LoginPrefs>(context, listen: false)
         .prefs
-        ?.setBool('logged', false);
-    //Pop the drawer first
+        ?.setBool('logged', false); //so if i close the app i'm redirected to LoginPage even if i have user and password saved
+    //Pop the AlertDialog
     Navigator.pop(context);
     //Then pop the HomePage
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
@@ -239,10 +258,10 @@ class _TrainerPageState extends State<TrainerPage> {
     Provider.of<LoginPrefs>(context, listen: false)
         .prefs
         ?.setBool('logged', false);
-    Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('email');
+    Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('email'); //remove credentials of user
     Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('password');
 
-    //Pop the drawer first
+    //Pop the AlertDialog
     Navigator.pop(context);
     //Then pop the HomePage
     Navigator.of(context).pushReplacementNamed(LoginPage.route);

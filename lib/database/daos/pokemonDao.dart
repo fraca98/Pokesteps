@@ -5,15 +5,15 @@ import 'package:pokesteps/database/entities_db/PokemonTable.dart';
 @dao
 abstract class PokemonDao {
 
-  //SELECT -> this allows to obtain all the entries of the pokemon table
+  //SELECT --> this allows to obtain all the entries of the PokemonTable
   @Query('SELECT * FROM PokemonTable')
   Future<List<PokemonTable>> findAllPokemon();
 
-  //INSERT --> this allows to insert a pokemon in the table
+  //INSERT --> this allows to insert a pokemon in the PokemonTable
   @Insert(onConflict: OnConflictStrategy.ignore) //if already exist, skip
   Future<void> insertPokemon(PokemonTable pokemon);
 
-  //SELECT -> retrieve Pokemon info given his id
+  //SELECT --> retrieve Pokemon info given his id
   @Query('SELECT * FROM PokemonTable WHERE id = :id')
   Future<PokemonTable?> pokemonInfoId(int id);
 

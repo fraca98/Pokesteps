@@ -20,7 +20,7 @@ class _widgetaftereggState extends State<widgetafteregg> {
                       listen: false)
                   .responsePokeApi ==
               null
-          ? const Pokeloader() //if it's null the response of PokeApi i want to show a loader (maybe is loading or error)
+          ? const Pokeloader() //if it's null i want to show a loader (info to be retrieved from PokéApi or database PokemonTable)
           : const Barsteps() //else i want to show the bar and buttons to perform the fetch of the steps
     );
   }

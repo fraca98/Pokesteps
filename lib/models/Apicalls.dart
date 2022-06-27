@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pokesteps/models/entities/Detail.dart';
@@ -7,7 +6,7 @@ import 'package:pokesteps/models/entities/Egg.dart';
 
 class Apicalls{
 
-  //This utility method is used to fetch the Egg pokemon data using the PokeAPI (pokemon-species-->to get hatch_counter)
+  //This utility method is used to fetch the Egg pokemon data using the PokeAPI (call pokemon-species-->to get hatch_counter)
   Future<Egg?> fetchEgg(int id) async {
     final url = 'https://pokeapi.co/api/v2/pokemon-species/$id/';
     try {
@@ -23,7 +22,7 @@ class Apicalls{
     }
   }
 
-  //This utility method is used to fetch the info of the Pokémon in the Pokédex data using the PokeAPI (pokemon)
+  //This utility method is used to fetch the info of the Pokémon in the DetailPokemon using the PokéApi (pokemon call)
   Future<Detail?> detailApi(int id) async {
   bool found = false;
   while (found == false) { //keep sending request until a get the correct response (200)

@@ -21,14 +21,15 @@ class _BarstepsState extends State<Barsteps> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      //if i have the response of the PokeApi i want to show the progress bar and the button to fetch steps
+      //if i have the responsePokeApi (from PokéApi or retrieved from Database(PokemonTable)) i want to show the progress bar and the button to fetch steps
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height*0.04,
+          height: MediaQuery.of(context).size.height * 0.04,
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.height*0.03), //horizontal distance from margin
+              horizontal: MediaQuery.of(context).size.height *
+                  0.03), //horizontal distance from margin
           child: Consumer<StepsCall>(
             builder: (context, value, child) => LinearPercentIndicator(
               lineHeight: 30, //height of the bar
@@ -44,14 +45,14 @@ class _BarstepsState extends State<Barsteps> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height*0.02,
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(MdiIcons.shoePrint),
             SizedBox(
-              width: MediaQuery.of(context).size.width*0.02,
+              width: MediaQuery.of(context).size.width * 0.02,
             ),
             Consumer<StepsCall>(
               builder: (context, value, child) => Text(
@@ -62,7 +63,7 @@ class _BarstepsState extends State<Barsteps> {
           ],
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height*0.03,
+          height: MediaQuery.of(context).size.height * 0.03,
         ),
         Expanded(
           child: Container(
@@ -79,57 +80,80 @@ class _BarstepsState extends State<Barsteps> {
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Provider.of<StepsCall>(context, listen: false)
                               .updateFetchButtonLoading(); //set to true when loading
-                          
-                          if (await InternetConnectionChecker().hasConnection == true){        
-                          if (Provider.of<StepsCall>(context, listen: false)
-                                  .firstabsolutefetch ==
+
+                          if (await InternetConnectionChecker().hasConnection ==
                               true) {
-                            //first absolute fetch for that egg
-                            await Provider.of<StepsCall>(context, listen: false)
-                                .authorizationFitbit();
-        
-                            Provider.of<StepsCall>(context, listen: false)
-                                    .startdate =
-                                DateTime
-                                    .now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
-                            //print(Provider.of<StepsCall>(context, listen: false).startdate);
-        
-                            await Provider.of<StepsCall>(context, listen: false)
-                                .fetchsteps(); //i fetch the steps start to remove the first time i get the egg
-        
-                          } else {
-                            await Provider.of<StepsCall>(context, listen: false)
-                                .authorizationFitbit();
-                            await Provider.of<StepsCall>(context, listen: false)
-                                .fetchsteps();
+                            //if i have internet connection authorize, fetch data
                             if (Provider.of<StepsCall>(context, listen: false)
-                                    .getSumSteps >=
-                                Provider.of<GeneratePokemon>(context,
+                                    .firstabsolutefetch ==
+                                true) {
+                              //first absolute fetch for that egg
+                              await Provider.of<StepsCall>(context,
+                                      listen: false)
+                                  .authorizationFitbit();
+                              Provider.of<StepsCall>(context, listen: false)
+                                      .startdate =
+                                  DateTime
+                                      .now(); //set startdate to fetch steps for the first time of this egg (need to remove previous steps of the day: cause i have daily data)
+                              //print(Provider.of<StepsCall>(context, listen: false).startdate);
+                              await Provider.of<StepsCall>(context,
+                                      listen: false)
+                                  .fetchsteps(); //i fetch the steps (consider the removing of steps in count of the first absolute fetch for the egg, cause data are day by day)
+                            } else { //if not first absolute fetch for the egg
+                              await Provider.of<StepsCall>(context,
+                                      listen: false)
+                                  .authorizationFitbit(); //re-perform authorization if problem with access token (check inside function)
+                              await Provider.of<StepsCall>(context,
+                                      listen: false)
+                                  .fetchsteps();
+                              if (Provider.of<StepsCall>(context, listen: false) //check if egg is opened or not (steps to open reached)
+                                      .getSumSteps >=
+                                  Provider.of<GeneratePokemon>(context,
+                                          listen: false)
+                                      .getStepstoHatch) {
+                                await Provider.of<GeneratePokemon>(context,
                                         listen: false)
-                                    .getStepstoHatch) {
-        
-                              await Provider.of<GeneratePokemon>(context,listen: false).updateopenlastegg(); //update database setting the last egg as open
-                              await Provider.of<PokeTrainerProvider>(context, listen: false).showLoader(); //show the loader for Pokédex refresh
-                              await Provider.of<PokeTrainerProvider>(context, listen: false).updatenumberpokedex(); //refresh the number of Pokémon in Pokédex and refresh the entire Pokédex
-                              Navigator.pushReplacementNamed(context,FoundPokemonPage.route); //if number of steps >= steps to hatch the egg                           
+                                    .updateopenlastegg(); //update database setting the last egg as open
+                                await Provider.of<PokeTrainerProvider>(context,
+                                        listen: false)
+                                    .showLoader(); //show the loader for Pokédex and TrainerPage
+                                await Provider.of<PokeTrainerProvider>(context,
+                                        listen: false)
+                                    .updatenumberpokedex(); //refresh the number of Pokémon in Pokédex, TrainerPage
+                                Navigator.pushReplacementNamed(
+                                    context,
+                                    FoundPokemonPage
+                                        .route); //Navigate to FoundPokemonPage (no possibility to go back)
+                              }
                             }
-                          }
-                          }else{
-                             final snackbar = SnackBar(content: Row(children: [
-                                    Icon(Icons.signal_wifi_connected_no_internet_4, color: Colors.white,),
-                                    SizedBox(width: 10,),
-                                    Text('No internet connection available')],
-                                    ),
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: Duration(seconds: 2),);
-                                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                          } else { //if not internet connection display snackbar with a message for the user
+                            final snackbar = SnackBar(
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.signal_wifi_connected_no_internet_4,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text('No internet connection available')
+                                ],
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              duration: Duration(seconds: 2),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
                           }
                           Provider.of<StepsCall>(context, listen: false)
                               .updateFetchButtonLoading(); //when finish loading set to false
                         },
-                        child: Text(Provider.of<StepsCall>(context, listen: false)
+                        child: Text(Provider.of<StepsCall>(context,
+                                    listen: false)
                                 .errorfetchsteps
-                            ? Provider.of<StepsCall>(context, listen: false).errorMessage
+                            ? Provider.of<StepsCall>(context, listen: false)
+                                .errorMessage
                             : (Provider.of<StepsCall>(context, listen: false)
                                     .firstabsolutefetch
                                 ? "Let's start"

@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       onSubmitAnimationCompleted: () { //when i complete signup or perform correct login
         Provider.of<LoginPrefs>(context, listen: false)
             .prefs
-            ?.setBool('logged', true);
+            ?.setBool('logged', true); //variable to check if i'm logged (if i'm logged next time skip directly to RootPage)
         _toHomePage(context);
       },
 

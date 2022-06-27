@@ -1,4 +1,4 @@
-//The Egg model when i put it in the database
+//The Egg model (EggTable) when i put it in the database (only few fields for each Egg saved)
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'EggTable')

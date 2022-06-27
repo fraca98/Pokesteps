@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:pokesteps/database/database.dart';
 import 'package:pokesteps/database/entities_db/EggTable.dart';
 import 'package:pokesteps/database/entities_db/PokemonTable.dart';
@@ -9,9 +9,9 @@ import 'entities/Egg.dart';
 
 
 class GeneratePokemon extends ChangeNotifier{
-  var rnd_id; //declare the variable for the random id of the Egg/Pokémon
+  var rnd_id; //declare the variable for the random id of the Egg of Pokémon
   Egg? responsePokeApi; //initally is assumed to be null the first time i open the app
-  final int numberpk = 898; //Number of Pokémon
+  final int numberpk = 898; //number of Pokémon of the game
 
   AppDatabase database;
   GeneratePokemon(this. database){ //Constructor for GeneratePokemon
@@ -21,20 +21,20 @@ class GeneratePokemon extends ChangeNotifier{
     });
   }
 
-  Future<void> _init() async{ //Use it to manage database (need await) and when i re-open the app
+  Future<void> _init() async{ //Use it to manage database, callApi when i re-open the app (check the last state of the app)
 
     EggTable? last = await database.eggdao.lastEgg(); //take the last egg in EggTable
     //print('last: $last');
     //print('last: ${jsonEncode(last)}'); //to see value encode to Json
 
     if (last == null || last.openegg == true){ //i have not the egg --> egg not present (EggTable is empty) or last egg is open
-      //do nothing
+      //do nothing --> the user has to press Take a new Egg
     }
     else{ //else i have the egg in the table
       PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(last.id); //check if in the PokemonTable i have the info of the last egg
       //print('existPokemon: ${jsonEncode(existPokemon)}');
 
-      if (existPokemon!=null){ //i have the info of the pokemon --> so just reload it in responsePokeApi
+      if (existPokemon!=null){ //i have the info of the pokemon --> so just reload it in responsePokeApi from the database PokemonTable
         //print('I have info of Pokemon');
         responsePokeApi = Egg(id: existPokemon.id, name: existPokemon.name, hatchcounter: existPokemon.hatchcounter);
         //print('responsePokeApi: ${jsonEncode(responsePokeApi)}');
@@ -84,10 +84,10 @@ class GeneratePokemon extends ChangeNotifier{
     /*List<EggTable>? totegg = await database.eggdao.findAllEggs(); //print Egg table
     //print('all_eggs: ${jsonEncode(totegg)}'); //encode in json to see list of Egg*/
 
-    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg of EggTable(closed)
+    PokemonTable? existPokemon = await database.pokemonDao.pokemonInfoId(rnd_id); //check if info of Pokemon exists with rnd_id of my last created Egg of EggTable(closed for sure)
     //print('existPokemon: ${jsonEncode(existPokemon)}'); 
 
-    if (existPokemon == null){ //if the pokemon is not stored (existPokemon==null) --> i need to collect and save these info in the PokemonTable
+    if (existPokemon == null){ //if the pokemon is not stored (existPokemon==null) --> i need to collect and save these info in the PokemonTable, so call PokéApi
       while(responsePokeApi == null) {
         //print('before');
         responsePokeApi = await Apicalls().fetchEgg(rnd_id); //keep calling PokeApi until i get a valid response
@@ -103,7 +103,7 @@ class GeneratePokemon extends ChangeNotifier{
       print('all_pokemon: ${jsonEncode(respoke)}'); //encode in json to see list of Pokemon*/
     
     }
-    else{  //if my pokemon exists in the database don't call the Api but reload it
+    else{  //if my pokemon exists in the database don't call the PokéApi but reload it from PokemonTable
       responsePokeApi = Egg(id: rnd_id, name: existPokemon.name, hatchcounter: existPokemon.hatchcounter); //ricreate responsePokeApi
       //print(jsonEncode(responsePokeApi));
     }
@@ -111,7 +111,7 @@ class GeneratePokemon extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateopenlastegg() async{ //update the last Egg in the table to openegg: true
+  Future<void> updateopenlastegg() async{ //update the last Egg in the table to openegg: true (the egg now is open)
     EggTable? eggtoup = await database.eggdao.lastEgg();
     eggtoup!.openegg = true; //set to true openegg
     await database.eggdao.updatelastopenegg(eggtoup); //update the last egg as open in the database

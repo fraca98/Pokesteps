@@ -56,25 +56,25 @@ class _PokedexPageState extends State<PokedexPage> {
                             listen: false)
                         .distinctOpenEggTable
                         ?.map((item) => item
-                            .id); //map from the unique opened EggTable the id of the Pokémon
+                            .id); //map from the unique opened EggTable the id of the Pokémon (to get the actual id of the opened eggs)
                     //print(i);
                     int idxuniqueEgg =
-                        -1; //not found Egg (not discovered) //If i have the Egg i retrieve the index of the corresponding row in EggTable
-                    int idxPokemon = -1; //initialize to -1: not found
+                        -1; //not found Egg (not discovered) //If i have the Egg (opened) corresponding to the actual Pokémon with current index, it's the index of the row to access Egg (info of Egg of the Pokemon) info in EggTable (use row-1 cause database row starts from 0)
+                    int idxPokemon = -1; //initialize to -1: not found //If i have the Pokémon (corresponding to Egg open) it's the index of the row to access Pokemon info in PokemonTable (use row-1 cause database row starts from 0)
 
-                    int cnt = 0;
+                    int cnt = 0; //need to get the index of row of the possible existing Egg opened corresponding the Pokemon index
                     for (final element in i!) {
                       cnt = cnt + 1;
-                      if (element == index + 1) {
-                        idxuniqueEgg = cnt;
-                        int cnt_pk = 0;
+                      if (element == index + 1) { //index + 1 cause index starts from 0 //check if there's correspondence between index and one element of the id of opened unique eggs (of EggTable)
+                        idxuniqueEgg = cnt; //if yes, save the position of row of EggTable
+                        int cnt_pk = 0; //need to get the index of row in PokemonTable corresponding to this Pokémon
                         for (final elementPokemon
                             in Provider.of<PokeTrainerProvider>(context,
                                     listen: false)
                                 .pokemondatable!) {
                           cnt_pk = cnt_pk + 1;
-                          if (elementPokemon.id == element) {
-                            idxPokemon = cnt_pk;
+                          if (elementPokemon.id == element) { //if my Pokémon correspond (check id)
+                            idxPokemon = cnt_pk; //save the position of row of PokemonTable
                             break;
                           }
                         }
@@ -86,6 +86,7 @@ class _PokedexPageState extends State<PokedexPage> {
                     //print('idxPokemon: $idxPokemon');
 
                     return InkWell(
+                      borderRadius: BorderRadius.circular(15.0),
                       onTap: () {
                         idxPokemon != -1
                             ? Navigator.pushNamed(context, DetailPokemon.route,

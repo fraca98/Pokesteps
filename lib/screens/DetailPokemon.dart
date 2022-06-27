@@ -21,7 +21,7 @@ class DetailPokemon extends StatefulWidget {
 class _DetailPokemonState extends State<DetailPokemon> {
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context)!.settings.arguments! as Map;
+    var args = ModalRoute.of(context)!.settings.arguments! as Map; //arguments passed with Navigator, map these to retrieve them
     //print(args);
     final int idxPokemon = args['idxPokemon'];
     final int index = args['index'];

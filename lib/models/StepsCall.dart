@@ -19,7 +19,7 @@ class StepsCall extends ChangeNotifier {
 
   SharedPreferences? prefs;
   StepsCall(this.prefs){ //StepsCall constructor
-    sumsteps = prefs?.getInt('sumsteps') ?? 0; //if i have values restore, else set it to 0 (means we have not fetched yet)
+    sumsteps = prefs?.getInt('sumsteps') ?? 0; //if i have values restore, else set it to 0 (means we have not fetched yet valid steps to open)
     //print(sumsteps);
     
     userId = prefs?.getString('userId'); //restore the userId if present to fetch fitbitdata, else is null
@@ -56,11 +56,10 @@ class StepsCall extends ChangeNotifier {
     userId == null
         ? //never been authorized
         userId = await FitbitConnector.authorize(
-            //context: context,
             clientID: '238CG7',
             clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',
             redirectUri: 'example://fitbit/auth',
-            callbackUrlScheme: 'example')
+            callbackUrlScheme: 'example') //gives me the userId
         : null;
     
     if (userId != null){
@@ -81,7 +80,7 @@ class StepsCall extends ChangeNotifier {
     //print(userId);
 
     if (userId != null) {
-      //if i'm correctly authenticated
+      //if i'm authorized correctly
       //print('Doing fetch steps');
       try {
         FitbitActivityTimeseriesDataManager
@@ -104,7 +103,7 @@ class StepsCall extends ChangeNotifier {
         //print(stepsData[0].value); //print first value of list
 
         
-        if(firstabsolutefetch == true) { //if first absolute fetch for the egg (i assume ALL the steps of the enddate day when i press start to be removed (last day remove: it's today, unless particular cases: if i press button between two days-->remove steps of the enddate))
+        if(firstabsolutefetch == true) { //if first absolute fetch for the egg (i assume ALL the steps of the enddate day when i press start to be removed (last day remove: it's today, unless particular cases: if i press button between two days-->remove steps of the enddate to be sure))
           savedlastdate = DateFormat('yyyy-MM-dd').format(stepsData[stepsData.length-1].dateOfMonitoring!); //save last data of the list(! to promise not null)
           savedlaststeps = stepsData[stepsData.length-1].value!.round(); //save steps of last data of the list (round to pass from double to int)
           firstabsolutefetch = false;
@@ -126,14 +125,14 @@ class StepsCall extends ChangeNotifier {
             }
           }
           sumsteps = sumsteps! - savedlaststeps!; //correct the steps subracting savedlaststeps
-          savedlaststeps = stepsData[stepsData.length-1].value!.round(); //update the savedlaststeps
-          savedlastdate = DateFormat('yyyy-MM-dd').format(stepsData[stepsData.length-1].dateOfMonitoring!); //update the savedlastdate
+          savedlaststeps = stepsData[stepsData.length-1].value!.round(); //update the savedlaststeps to these of the last day fetched
+          savedlastdate = DateFormat('yyyy-MM-dd').format(stepsData[stepsData.length-1].dateOfMonitoring!); //update the savedlastdate to the one of the last day fetched
           //print(savedlastdate);
           //print(savedlaststeps);
           //print(sumsteps);
         }
 
-        startdate = stepsData[stepsData.length-1].dateOfMonitoring!; //if i fetch succesfully data, the startdate of the following fetch become last date of monitoring in fetch
+        startdate = stepsData[stepsData.length-1].dateOfMonitoring!; //if i fetch succesfully data, the startdate of the following fetch become last date of monitoring in fetch (last day fetched)
         
         await prefs?.setString('startdate', startdate!.toIso8601String());
         await prefs?.setInt('sumsteps', sumsteps!);
@@ -161,11 +160,11 @@ class StepsCall extends ChangeNotifier {
   
   int get getSumSteps => sumsteps!;
 
-  Future<void> clearSumSteps() async {
-    sumsteps = 0; //clear sumsteps value when i want to take a new egg
-    await prefs?.setInt('sumsteps', sumsteps!); //set value to 0 (for the new egg)
+  Future<void> clearSumSteps() async { //clear of info i need to perform when i want to take a new Egg or delete the account
+    sumsteps = 0; //clear sumsteps value
+    await prefs?.setInt('sumsteps', sumsteps!); //set value to 0 (for the new Egg)
 
-    firstabsolutefetch = true; //set first absolute fetch for the new egg
+    firstabsolutefetch = true; //set first absolute fetch for the new Egg
     await prefs?.setBool('firstabsolutefetch', true);
 
     await prefs?.remove('savedlaststeps'); //remove and reset savedlaststeps
@@ -174,14 +173,14 @@ class StepsCall extends ChangeNotifier {
     savedlastdate = null;
   }
 
-  Future<void> unauthorize() async { //to unauthorize Fitbit
+  Future<void> unauthorize() async { //to unauthorize Fitbit on delete account
     print('Unauthorize');
     await FitbitConnector.unauthorize(
       clientID: '238CG7',
       clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',
     );
 
-    userId = null;
+    userId = null; //remove the userId
     await prefs?.remove('userId');
   }
 }
