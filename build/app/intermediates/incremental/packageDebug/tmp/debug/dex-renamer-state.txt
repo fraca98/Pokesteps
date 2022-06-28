@@ -1,4 +1,4 @@
-#Mon Jun 27 11:39:52 CEST 2022
+#Tue Jun 28 09:59:52 CEST 2022
 base.0=C\:\\Users\\Luca\\Desktop\\Pokesteps\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
