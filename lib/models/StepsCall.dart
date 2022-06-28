@@ -142,15 +142,15 @@ class StepsCall extends ChangeNotifier {
         errorfetchsteps = false; //i have not an error
 
       } on Exception catch (tokenerr) { //Exception due to access token or user gives me wrong data to access
-        print('tokenerr: $tokenerr');
+        //print('tokenerr: $tokenerr');
         errorfetchsteps = true; //i have an error when fetching steps
-        print('Need to re-authorize'); //i need to re-authorize --> so set userId to null so when call authorizationFitbit it now checks to authorize
+        //print('Need to re-authorize'); //i need to re-authorize --> so set userId to null so when call authorizationFitbit it now checks to authorize
         errorMessage = 'Re-authorize';
         userId = null;
         await prefs?.remove('userId');
       }
        catch (err) {
-        print('error fetchsteps: $err');
+        //print('error fetchsteps: $err');
         errorfetchsteps = true; //i have an error when fetching steps --> for example too many requests
         errorMessage = 'Ops, retry later';
       }
@@ -174,7 +174,7 @@ class StepsCall extends ChangeNotifier {
   }
 
   Future<void> unauthorize() async { //to unauthorize Fitbit on delete account
-    print('Unauthorize');
+    //print('Unauthorize');
     await FitbitConnector.unauthorize(
       clientID: '238CG7',
       clientSecret: '6814538ffe2fa5708f85373a80bc2d4e',

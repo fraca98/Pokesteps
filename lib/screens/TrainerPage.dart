@@ -58,7 +58,7 @@ class _TrainerPageState extends State<TrainerPage> {
                                   .numberpk,
                           center: Text(
                             "${Provider.of<PokeTrainerProvider>(context, listen: false).numberdiscovered}/${Provider.of<GeneratePokemon>(context, listen: false).numberpk} ",
-                            style: new TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
                           circularStrokeCap: CircularStrokeCap.butt,
@@ -173,7 +173,8 @@ class _TrainerPageState extends State<TrainerPage> {
                                 onPressed: () async {
                                   if (await InternetConnectionChecker()
                                           .hasConnection ==
-                                      true) { //delete account only if there's internet connection (required for unauthorize)
+                                      true) {
+                                    //delete account only if there's internet connection (required for unauthorize)
                                     Provider.of<StepsCall>(context,
                                                 listen: false)
                                             .errorfetchsteps =
@@ -194,11 +195,13 @@ class _TrainerPageState extends State<TrainerPage> {
                                     Provider.of<StepsCall>(context,
                                             listen: false)
                                         .unauthorize();
-                                    _Delete(context); //to manage delete account for LoginPage
+                                    _Delete(
+                                        context); //to manage delete account for LoginPage
 
-                                    print('Deleted all');
-                                  } else { //if not internet connection display snackbar with message for the user
-                                    print('No internet connection');
+                                    //print('Deleted all');
+                                  } else {
+                                    //if not internet connection display snackbar with message for the user
+                                    //print('No internet connection');
                                     Navigator.of(context).pop();
                                     final snackbar = SnackBar(
                                       content: Row(
@@ -245,9 +248,8 @@ class _TrainerPageState extends State<TrainerPage> {
   }
 
   void _toLoginPage(BuildContext context) async {
-    Provider.of<LoginPrefs>(context, listen: false)
-        .prefs
-        ?.setBool('logged', false); //so if i close the app i'm redirected to LoginPage even if i have user and password saved
+    Provider.of<LoginPrefs>(context, listen: false).prefs?.setBool('logged',
+        false); //so if i close the app i'm redirected to LoginPage even if i have user and password saved
     //Pop the AlertDialog
     Navigator.pop(context);
     //Then pop the HomePage
@@ -258,7 +260,9 @@ class _TrainerPageState extends State<TrainerPage> {
     Provider.of<LoginPrefs>(context, listen: false)
         .prefs
         ?.setBool('logged', false);
-    Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('email'); //remove credentials of user
+    Provider.of<LoginPrefs>(context, listen: false)
+        .prefs
+        ?.remove('email'); //remove credentials of user
     Provider.of<LoginPrefs>(context, listen: false).prefs?.remove('password');
 
     //Pop the AlertDialog

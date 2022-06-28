@@ -18,9 +18,9 @@ void main() async {
 
   SharedPreferences? prefs = await SharedPreferences.getInstance(); //import sharedpreferences
 
-  print('logged: ${prefs.getBool('logged')}');
+  /*print('logged: ${prefs.getBool('logged')}');
   print(prefs.getString('email'));
-  print(prefs.getString('password'));
+  print(prefs.getString('password'));*/
 
   final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build(); //This opens the database
 

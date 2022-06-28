@@ -6,6 +6,9 @@ import 'package:pokesteps/screens/RootPage.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
+
+  const LoginPage({Key? key}) : super(key: key);
+
   static const route = '/login/';
   static const routename = 'LoginPage';
 
@@ -95,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<String?> _signupUser(SignupData data) { //performing signup when correct
-    print('Signup Name: ${data.name}, Password: ${data.password}');
+    //print('Signup Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) {
       if (data.name != null && data.password != null) {
         Provider.of<LoginPrefs>(context, listen: false)
