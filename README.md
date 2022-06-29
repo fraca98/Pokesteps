@@ -10,5 +10,5 @@ is added to the pokedex.
 
 # Contacts
 
-- Luca Fracasetti: luca.fracasetti@studenti.unipd.it
+- Luca Fracassetti: luca.fracassetti@studenti.unipd.it
 - Giacomo Milani: giacomo.milani@studenti.unipd.it
