@@ -1,16 +1,9 @@
-# pokesteps
+# Pokesteps
 
-A new Flutter project.
+Pokesteps is an app developed for educational purposes in the Biomedical
+Wereable Technologies for Healthcare and Wellbeing course project in at
+the University of Padua.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is a game app where the user has to hatch Pokémon eggs fetching his
+steps collected with a Fitbit device and when the egg opens the Pokémon
+is added to the pokedex.
