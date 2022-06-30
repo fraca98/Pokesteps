@@ -1,2 +1,0 @@
-com/linusu/flutter_web_auth/BuildConfig.java
- com.linusu.flutter_web_auth.BuildConfig
