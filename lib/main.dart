@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pokesteps/models/LoginPrefs.dart';
-import 'package:pokesteps/models/PokeTrainerProvider.dart';
-import 'package:pokesteps/screens/DetailPokemon.dart';
-import 'package:pokesteps/screens/LoginPage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart'; //To use SystemChrome:set notification bar color, icons notification bar color...
 import 'package:pokesteps/screens/RootPage.dart';
 import 'package:pokesteps/screens/FoundPokemonPage.dart';
+import 'package:pokesteps/screens/DetailPokemon.dart';
+import 'package:pokesteps/screens/LoginPage.dart';
+import 'package:pokesteps/models/LoginPrefs.dart';
+import 'package:pokesteps/models/PokeTrainerProvider.dart';
 import 'package:pokesteps/models/TakeEgg.dart';
 import 'package:pokesteps/models/GeneratePokemon.dart';
 import 'package:pokesteps/models/StepsCall.dart';
