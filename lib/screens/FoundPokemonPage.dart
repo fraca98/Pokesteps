@@ -23,7 +23,7 @@ class _FoundPokemonPageState extends State<FoundPokemonPage> {
   void initState() {
     //print('FoundPokemonPage');
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       //first build the page, then perform these methods (so i get no error when i set to null responsePokeApi)
       //print("WidgetsBinding");
       _asyncmethod();
